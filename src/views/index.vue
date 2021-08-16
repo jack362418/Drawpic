@@ -1,16 +1,29 @@
 <template>
   <div class="index flex">
-    <graphicSelection />
-    <middleCanvas />
-    <toolsMenu />
+    <graphicSelection
+      :style="{
+        width: visibleAreaSizeRef.graphicWidth + 'px'
+      }" 
+    />
+    <middleCanvas 
+      :style="{
+        width: visibleAreaSizeRef.middleWidth + 'px'
+      }" 
+    />
+    <toolsMenu 
+      :style="{
+        width: visibleAreaSizeRef.toolsWidth + 'px'
+      }" 
+    />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent,reactive,toRefs } from 'vue'
+import { defineComponent,reactive,toRefs,computed } from 'vue'
 import graphicSelection from '@/views/graphicSelection/index.vue'
 import middleCanvas from '@/views/middleCanvas/index.vue'
 import toolsMenu from '@/views/toolsMenu/index.vue'
+import { useStore } from '@/store'
 
 export default defineComponent({
   name: 'index',
@@ -20,14 +33,12 @@ export default defineComponent({
     toolsMenu
   },
   setup() {
-    let data = reactive({
-      name:"蒋"
-    })
-    const refData = toRefs(data);
-
+    const store = useStore()
+    
+    const visibleAreaSizeRef = computed(() => store.getters.layout)
 
     return {
-      ...refData
+      visibleAreaSizeRef
     }
   },
 })

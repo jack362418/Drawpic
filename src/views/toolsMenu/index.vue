@@ -1,6 +1,10 @@
 <template>
-  <div class="toolsMenu">
-
+  <div class="graphicSelection">
+    <a-card size="small" title="Small size card"  class="selectTool">
+        <p>card content</p>
+        <p>card content</p>
+        <p>card content</p>
+    </a-card>
   </div>
 </template>
 
@@ -8,6 +12,14 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'toolsMenu'
+  name: 'graphicSelection'
 })
 </script>
+<style lang="scss" scoped>
+    .graphicSelection{
+        height: 100%;
+        .selectTool{
+            height: 100%;
+        }
+    }
+</style>
