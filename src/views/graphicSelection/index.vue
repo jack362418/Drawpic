@@ -7,7 +7,7 @@
               <a-icon type="caret-right" />
             </template>
             <a-collapse-panel v-for="(item,index) in shapeSvgRef" :key="index" :header="item.type">
-              <div v-for="(it,idx) in item.children" :key="idx" class="shapeItem"> 
+              <div v-for="(it,idx) in item.children" :key="idx" class="shapeItem" @click="selectShap(it)"> 
                  <svg 
                     overflow="visible" 
                     width="18"
@@ -43,13 +43,21 @@
 <script lang="ts">
 import { defineComponent,ref } from 'vue'
 import { shapeSvg } from '@/config/shapeSvg'
+import { ChildrenOption } from '@/types/shape' 
+import { useStore } from '@/store'
 export default defineComponent({
   name: 'graphicSelection',
   setup() {
+    const store = useStore()
     const shapeSvgRef = ref(shapeSvg)
+    
+    const selectShap = (shape:ChildrenOption) => {
+      store.commit("SET_SIGN_PATH",shape)
+    }
 
     return {
-      shapeSvgRef
+      shapeSvgRef,
+      selectShap
     }
   }
 })
@@ -77,6 +85,10 @@ export default defineComponent({
             justify-content: center;
             width: 20%;
             height: 35px;
+            &:hover .shape-path {
+              stroke: #409EFF;
+              cursor: pointer;
+            }
           }
         }
         svg:not(:root) {
