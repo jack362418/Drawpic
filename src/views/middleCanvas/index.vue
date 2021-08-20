@@ -7,6 +7,11 @@
 
       <creatElement v-if="isCreatElement" />
       
+      <div class="drawingCenter">
+        <elementCenterUi ref="elementCenterUi"/>
+      </div>
+
+      
     </div>
   </div>
 </template>
@@ -16,11 +21,13 @@ import { computed, defineComponent } from 'vue'
 import { useStore } from '@/store'
 import useViewportSize from './hooks/useViewportSize'
 import creatElement from './createElementWraper.vue'
+import elementCenterUi from './elementCenterUi.vue'
 
 export default defineComponent({
   name: 'middleCanvas',
   components:{
-    creatElement
+    creatElement,
+    elementCenterUi
   },
   setup() {
     const store = useStore()

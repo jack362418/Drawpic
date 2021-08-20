@@ -1,4 +1,10 @@
-
+export interface ShapeObj {
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+    path: string
+}
 export interface State {
     /**
      * 布局尺寸
@@ -18,5 +24,9 @@ export interface State {
     /**
      * 是否处于创建图形阶段
      */
-    isCreatElement: boolean
+    isCreatElement: boolean,
+    /**
+     * 存储所有的编辑中的图形
+     */
+    elementShapeArr: ShapeObj[]
 }

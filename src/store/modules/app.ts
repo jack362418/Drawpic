@@ -1,4 +1,4 @@
-import { State } from './type'
+import { State,ShapeObj } from './type'
 import { Module } from 'vuex'
 const app:Module<State, any> = {
     state:{
@@ -10,7 +10,8 @@ const app:Module<State, any> = {
         singleGraph:{
             path:""
         },
-        isCreatElement: false
+        isCreatElement: false,
+        elementShapeArr:[]
     },  
     getters:{
         layout:(state) => {
@@ -19,6 +20,9 @@ const app:Module<State, any> = {
         },
         getSingPath: (state) => {
             return state.singleGraph
+        },
+        getElementShape: (state) => {
+            return state.elementShapeArr
         }
     },
     mutations: {
@@ -31,6 +35,11 @@ const app:Module<State, any> = {
         },
         CANCEL_CREATE_EL: (state,isCreatElement: State['isCreatElement']) => {
             state.isCreatElement = isCreatElement
+        },
+        SET_ELEMENT_SHAPE_ARR:  (state,elementShape:ShapeObj) => {
+            const addShape:State['elementShapeArr'] = state.elementShapeArr 
+            addShape.push(elementShape)
+            state.elementShapeArr = addShape
         }
     },
     actions: {
