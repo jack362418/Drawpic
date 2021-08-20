@@ -3,7 +3,8 @@ export interface ShapeObj {
     y: number,
     width: number,
     height: number,
-    path: string
+    path: string,
+    viewBox: number
 }
 export interface State {
     /**

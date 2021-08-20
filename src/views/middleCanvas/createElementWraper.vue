@@ -76,6 +76,11 @@ export default defineComponent({
                 document.onmousemove = null
                 document.onmouseup = null
                 store.commit("CANCEL_CREATE_EL",false)
+                const elementObj = {
+                  ...elementPositionRef.value,
+                  ...store.state.app.singleGraph
+                }
+                store.commit("SET_ELEMENT_SHAPE_ARR",elementObj)
             }
         }
 
