@@ -3,9 +3,10 @@
     <div v-for="(it,idx) in elementShapeArr" :key="idx" class="shapeItem"> 
         <div class="shape" :style="{
             top: it.y + 'px',
-            left: it.x + 'px'
+            left: it.x + 'px',
+            zIndex: idx
         }">
-            <svg 
+            <svg
                 overflow="visible" 
                 :width="it.width"
                 :height="it.height"
@@ -17,7 +18,8 @@
                 <g 
                     :transform="`scale(${it.width / (it.viewBox)}, ${it.height / it.viewBox}) translate(0,0) matrix(1,0,0,1,0,0)`"
                     >
-                    <path 
+                    
+                    <path
                         class="shape-path"
                         vector-effect="non-scaling-stroke" 
                         stroke-linecap="butt" 

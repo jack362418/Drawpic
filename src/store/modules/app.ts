@@ -37,6 +37,9 @@ const app:Module<State, any> = {
             state.isCreatElement = isCreatElement
         },
         SET_ELEMENT_SHAPE_ARR:  (state,elementShape:ShapeObj) => {
+            state.elementShapeArr.forEach(item => {
+                item.isSelect = false
+            })
             const addShape:State['elementShapeArr'] = state.elementShapeArr 
             addShape.push(elementShape)
             state.elementShapeArr = addShape

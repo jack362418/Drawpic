@@ -16,6 +16,7 @@
 <script lang="ts">
 import { defineComponent,ref,onMounted,reactive } from 'vue'
 import { useStore } from '@/store'
+import { uuid } from "@/until/index"
 export default defineComponent({
   name: 'creatElement',
   setup() {
@@ -47,6 +48,7 @@ export default defineComponent({
             elementPositionRef.value.y = clientY - el.y
             /**
              * 上下左右均可移动
+             * 
              */
             document.onmousemove = (e:MouseEvent) => {
                 elementPositionRef.value.width = Math.abs(e.clientX - clientX) 
@@ -78,7 +80,9 @@ export default defineComponent({
                 store.commit("CANCEL_CREATE_EL",false)
                 const elementObj = {
                   ...elementPositionRef.value,
-                  ...store.state.app.singleGraph
+                  ...store.state.app.singleGraph,
+                  isSelect:true,
+                  id: uuid()
                 }
                 store.commit("SET_ELEMENT_SHAPE_ARR",elementObj)
             }
@@ -100,11 +104,12 @@ export default defineComponent({
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 2;
+    z-index: 9999;
     cursor: crosshair;
     .createBox{
         position: absolute;
-        border: 2px solid #409EFF
+        border: 2px solid #f40;
+        z-index: 9999;
     }
   }
 </style>

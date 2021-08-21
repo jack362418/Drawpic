@@ -24,7 +24,7 @@
                           vector-effect="non-scaling-stroke" 
                           stroke-linecap="butt" 
                           stroke-miterlimit="8"
-                          stroke-linejoin
+                          stroke-linejoin="inherit"
                           fill="transparent"
                           stroke="#999"
                           stroke-width="2" 

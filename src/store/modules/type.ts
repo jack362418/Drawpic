@@ -4,7 +4,9 @@ export interface ShapeObj {
     width: number,
     height: number,
     path: string,
-    viewBox: number
+    viewBox: number,
+    id: string,
+    isSelect: boolean
 }
 export interface State {
     /**

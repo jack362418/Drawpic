@@ -11,6 +11,10 @@
         <elementCenterUi ref="elementCenterUi"/>
       </div>
 
+      <div class="operates">
+        <operates ref="operates"/>
+      </div>
+
       
     </div>
   </div>
@@ -22,12 +26,14 @@ import { useStore } from '@/store'
 import useViewportSize from './hooks/useViewportSize'
 import creatElement from './createElementWraper.vue'
 import elementCenterUi from './elementCenterUi.vue'
+import operates from './operateShape/index.vue'
 
 export default defineComponent({
   name: 'middleCanvas',
   components:{
     creatElement,
-    elementCenterUi
+    elementCenterUi,
+    operates
   },
   setup() {
     const store = useStore()
