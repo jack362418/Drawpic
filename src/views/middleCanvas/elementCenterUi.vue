@@ -2,10 +2,12 @@
   <div class="elementCenterUi">
     <div v-for="(it,idx) in elementShapeArr" :key="idx" class="shapeItem"> 
         <div class="shape" :style="{
-            top: it.y + 'px',
-            left: it.x + 'px',
-            zIndex: idx
-        }">
+                top: it.y + 'px',
+                left: it.x + 'px',
+                zIndex: idx
+            }"
+            @mousedown.stop="$event => changeShapEleSize($event,it)"
+        >
             <svg
                 overflow="visible" 
                 :width="it.width"
@@ -24,7 +26,7 @@
                         vector-effect="non-scaling-stroke" 
                         stroke-linecap="butt" 
                         stroke-miterlimit="8"
-                        stroke-linejoin
+                        stroke-linejoin="inherit"
                         fill="#409EFF"
                         stroke="#409EFF"
                         stroke-width="2" 
@@ -40,6 +42,7 @@
 <script lang="ts">
 import { defineComponent,computed } from 'vue'
 import { useStore } from '@/store'
+import useChangeShapSize from "./hooks/useChangeShapSize"
 
 export default defineComponent({
   name: 'elementCenterUi',
@@ -47,8 +50,11 @@ export default defineComponent({
       const store = useStore()
       const elementShapeArr = computed(() => store.state.app.elementShapeArr)
 
+      const { changeShapEleSize } = useChangeShapSize()
+
       return {
-          elementShapeArr
+          elementShapeArr,
+          changeShapEleSize
       }
   }
 })
@@ -58,6 +64,7 @@ export default defineComponent({
         position: relative;
         .shape{
             position: absolute;
+            cursor: move;
         }
     }
 </style>

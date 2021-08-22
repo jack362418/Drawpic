@@ -43,6 +43,13 @@ const app:Module<State, any> = {
             const addShape:State['elementShapeArr'] = state.elementShapeArr 
             addShape.push(elementShape)
             state.elementShapeArr = addShape
+        },
+        UPDATE_ELEMENT_SHAPE: (state,updataItem:ShapeObj) => {
+            state.elementShapeArr.forEach(item => {
+                if(item.id == updataItem.id) {
+                    item = { ...updataItem }
+                }
+            })
         }
     },
     actions: {
