@@ -16,6 +16,7 @@
 import { computed, defineComponent,watchEffect,ref } from 'vue'
 import { useStore } from '@/store'
 import { ShapeObj,State } from '@/store/modules/type'
+import useOperateShapeLine from '../hooks/useOperateShapeLine'
 
 export default defineComponent({
   name: 'operateShape',
@@ -23,21 +24,22 @@ export default defineComponent({
     const store = useStore()
     const shapeElementList = computed<State['elementShapeArr']>(() => store.state.app.elementShapeArr)
     const selectShapeRef = ref<ShapeObj>() 
-    const elementBorderRef = ref({})
+    let elementShapeOperate = {} 
+    
     const getSelectElementShape = () => {
         const filterSelectShape = shapeElementList.value.filter(item => item.isSelect)
         if(filterSelectShape.length == 1) {
             selectShapeRef.value = {
                 ...filterSelectShape[0]
             }
-
-            console.log("selectShape",selectShapeRef.value)
+            elementShapeOperate = useOperateShapeLine(selectShapeRef.value)
         }
     }
     watchEffect(getSelectElementShape)
     
     return {
-        selectShapeRef
+        selectShapeRef,
+        ...elementShapeOperate
     }
   }
 })

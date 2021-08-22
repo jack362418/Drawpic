@@ -10,3 +10,20 @@ export interface ShapeOption {
     children: ChildrenOption[]
 }
   
+export const enum OperateResizeHandlers {
+    LEFT_TOP = 'left-top',
+    TOP = 'top',
+    RIGHT_TOP = 'right-top',
+    LEFT = 'left',
+    RIGHT = 'right',
+    LEFT_BOTTOM = 'left-bottom',
+    BOTTOM = 'bottom',
+    RIGHT_BOTTOM = 'right-bottom',
+}
+
+export const enum OperateResizeBorder {
+    TOP = 'top',
+    RIGHT = 'right',
+    BOTTOM = 'bottom',
+    LEFT = 'left',
+}
