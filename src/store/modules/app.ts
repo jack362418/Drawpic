@@ -3,7 +3,7 @@ import { Module } from 'vuex'
 const app:Module<State, any> = {
     state:{
         layout:{
-            graphicWidth: 260,
+            graphicWidth: 220,
             middleWidth: 0,
             toolsWidth: 260
         },
@@ -49,6 +49,22 @@ const app:Module<State, any> = {
                 if(item.id == updataItem.id) {
                     item = { ...updataItem }
                 }
+            })
+        },
+        CANCEL_SELECT_SHAPE: (state,selectObj:(ShapeObj | State['elementShapeArr'])) => {
+            if(!Array.isArray(selectObj)) {
+                state.elementShapeArr.forEach(item => {
+                    if(item.id == selectObj.id) {
+                        item.isSelect = selectObj.isSelect
+                    }else {
+                        item.isSelect = false
+                    }
+                })
+            }
+        },
+        CANCEL_ALL_SELECT_SHAPE: (state) => {
+            state.elementShapeArr = state.elementShapeArr.map(item => {
+                return {...item,isSelect:false}
             })
         }
     },

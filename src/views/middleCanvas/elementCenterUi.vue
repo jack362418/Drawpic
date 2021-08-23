@@ -6,6 +6,9 @@
                 left: it.x + 'px',
                 zIndex: idx
             }"
+            :class="{
+                'shapeMove': it.isSelect
+            }"
             @mousedown.stop="$event => changeShapEleSize($event,it)"
         >
             <svg
@@ -64,6 +67,8 @@ export default defineComponent({
         position: relative;
         .shape{
             position: absolute;
+        }
+        .shapeMove{
             cursor: move;
         }
     }
