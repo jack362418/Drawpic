@@ -81,9 +81,6 @@ export default () => {
             }
             store.commit("UPDATE_ELEMENT_SHAPE",selectShapeRef)
         }
-
-        
-
         document.onmouseup = (e:MouseEvent) => {
             document.onmousemove = null
             document.onmouseup = null

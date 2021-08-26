@@ -18,15 +18,15 @@ export default () => {
     const creatElementRef = ref<HTMLElement>()
     onMounted(() => {
         if (!creatElementRef.value) return
-        let {x,y} = creatElementRef.value.getBoundingClientRect()
+        const {x,y} = creatElementRef.value.getBoundingClientRect()
         el.x = Math.floor(x)
         el.y = Math.floor(y) 
     })  
 
     const createElement = (e:MouseEvent) => {
         isStartRef.value = true
-        let clientX = e.clientX
-        let clientY = e.clientY
+        const clientX = e.clientX
+        const clientY = e.clientY
         elementPositionRef.value.x = clientX - el.x
         elementPositionRef.value.y = clientY - el.y
         /**
