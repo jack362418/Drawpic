@@ -52,7 +52,6 @@ export default defineComponent({
     const elementShapeOperate = ref()
     
     const getSelectElementShape = () => {
-        
         const filterSelectShape = shapeElementList.value.filter(item => item.isSelect)
         selectShapeRef.value = undefined
         

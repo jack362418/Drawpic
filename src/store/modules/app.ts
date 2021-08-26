@@ -45,10 +45,12 @@ const app:Module<State, any> = {
             state.elementShapeArr = addShape
         },
         UPDATE_ELEMENT_SHAPE: (state,updataItem:ShapeObj) => {
-            state.elementShapeArr.forEach(item => {
+            state.elementShapeArr = state.elementShapeArr.map(item => {
+                let obj = item
                 if(item.id == updataItem.id) {
-                    item = { ...updataItem }
+                    obj = {...updataItem}
                 }
+                return obj
             })
         },
         CANCEL_SELECT_SHAPE: (state,selectObj:(ShapeObj | State['elementShapeArr'])) => {

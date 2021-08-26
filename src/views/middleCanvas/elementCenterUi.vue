@@ -51,7 +51,9 @@ export default defineComponent({
   name: 'elementCenterUi',
   setup() {
       const store = useStore()
-      const elementShapeArr = computed(() => store.state.app.elementShapeArr)
+      const elementShapeArr = computed(() => {
+          return store.state.app.elementShapeArr
+      })
 
       const { changeShapEleSize } = useChangeShapSize()
 
