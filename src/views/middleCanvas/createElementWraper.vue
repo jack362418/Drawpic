@@ -15,14 +15,15 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import useCreateElementWraper from "./hooks/useCreateElementWraper"
+import useCreateElementWraper from '@/hooks/useCommCreateElement'
 export default defineComponent({
   name: 'creatElement',
   setup() {
         /**
          * 创建节点
          */
-        const creactElementShap = useCreateElementWraper()
+        const isCreateNode = true
+        const creactElementShap = useCreateElementWraper(isCreateNode)
         return {
             ...creactElementShap
         }

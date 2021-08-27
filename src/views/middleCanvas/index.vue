@@ -11,6 +11,7 @@
       <div class="operates">  
         <operates ref="operates"/>
       </div>
+      <selectDrawArea v-if="!isCreatElement"/>
     </div>
   </div>
 </template>
@@ -22,13 +23,15 @@ import useViewportSize from './hooks/useViewportSize'
 import creatElement from './createElementWraper.vue'
 import elementCenterUi from './elementCenterUi.vue'
 import operates from './operateShape/index.vue'
+import selectDrawArea from './selectDrawArea.vue'
 
 export default defineComponent({
   name: 'middleCanvas',
   components:{
     creatElement,
     elementCenterUi,
-    operates
+    operates,
+    selectDrawArea
   },
   setup() {
     const store = useStore()
