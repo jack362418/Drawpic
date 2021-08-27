@@ -1,6 +1,6 @@
 <template>
   <div class="selectDrawArea" ref="creatElementRef" @mousedown.stop="$event => createElement($event)">
-    毁灭吧 小芋头
+    
     <div class="areaBox" v-if="isStartRef" :style="{
         width: elementPositionRef.width + 'px',
         height: elementPositionRef.height + 'px',
