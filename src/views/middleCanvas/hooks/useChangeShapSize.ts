@@ -34,6 +34,10 @@ export default () => {
         const clientX = e.clientX
         const clientY = e.clientY
         const orginShap = JSON.parse(JSON.stringify(selectShapeRef))
+        const maxX = orginShap.x + (orginShap.width - 20)
+        const maxY = orginShap.y + (orginShap.height - 20)
+        const minX = orginShap.x 
+        const minY = orginShap.y
         document.onmousemove = (e:MouseEvent) => {
             const differenceX = Math.abs(e.clientX - clientX)
             const differenceY = Math.abs(e.clientY - clientY)
@@ -43,13 +47,22 @@ export default () => {
             if(item.type == 'left') {
                 selectShapeRef.width = e.clientX <= clientX ? orginShap.width + differenceX : orginShap.width - differenceX
                 selectShapeRef.x = e.clientX <= clientX ? orginShap.x - differenceX : orginShap.x + differenceX
+                if(selectShapeRef.width <= 20) {
+                    selectShapeRef.x = maxX
+                }
             }
             if(item.type == 'top') {
                 selectShapeRef.height = e.clientY <= clientY ? orginShap.height + differenceY : orginShap.height - differenceY
                 selectShapeRef.y = e.clientY <= clientY ? orginShap.y - differenceY : orginShap.y + differenceY
+                if(selectShapeRef.height <= 20) {
+                    selectShapeRef.y = maxY
+                }
             }
             if(item.type == 'bottom') {
                 selectShapeRef.height = e.clientY <= clientY ? orginShap.height - differenceY : orginShap.height + differenceY
+                if(selectShapeRef.height <= 20) {
+                    selectShapeRef.y = minY
+                }
             }
             if(item.type == 'right-bottom') {
                 selectShapeRef.width = e.clientX <= clientX ? orginShap.width - differenceX : orginShap.width + differenceX
@@ -60,24 +73,41 @@ export default () => {
                 selectShapeRef.height = e.clientY <= clientY ? orginShap.height + differenceY : orginShap.height - differenceY
                 selectShapeRef.x = e.clientX <= clientX ? orginShap.x - differenceX : orginShap.x + differenceX
                 selectShapeRef.y = e.clientY <= clientY ? orginShap.y - differenceY : orginShap.y + differenceY
+                if(selectShapeRef.height <= 20) {
+                    selectShapeRef.y = maxY
+                }
+                if(selectShapeRef.width <= 20) {
+                    selectShapeRef.x = maxX
+                }
             }
             if(item.type == 'right-top') {
                 selectShapeRef.width = e.clientX <= clientX ? orginShap.width - differenceX : orginShap.width + differenceX
                 selectShapeRef.height = e.clientY <= clientY ? orginShap.height + differenceY : orginShap.height - differenceY
                 selectShapeRef.y = e.clientY <= clientY ? orginShap.y - differenceY : orginShap.y + differenceY
+                if(selectShapeRef.height <= 20) {
+                    selectShapeRef.y = maxY
+                }
+                if(selectShapeRef.width <= 20) {
+                    selectShapeRef.x = minX
+                }
             }
             if(item.type == 'left-bottom') {
                 selectShapeRef.width = e.clientX <= clientX ? orginShap.width + differenceX : orginShap.width - differenceX
                 selectShapeRef.height = e.clientY <= clientY ? orginShap.height - differenceY : orginShap.height + differenceY
                 selectShapeRef.x = e.clientX <= clientX ? orginShap.x - differenceX : orginShap.x + differenceX
+                if(selectShapeRef.height <= 20) {
+                    selectShapeRef.y = minY
+                }
+                if(selectShapeRef.width <= 20) {
+                    selectShapeRef.x = maxX
+                }
             }
             if(selectShapeRef.height <= 20) {
                 selectShapeRef.height = 20
-                return
+
             }
             if(selectShapeRef.width <= 20) {
                 selectShapeRef.width = 20
-                return
             }
             store.commit("UPDATE_ELEMENT_SHAPE",selectShapeRef)
         }

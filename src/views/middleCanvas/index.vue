@@ -1,21 +1,16 @@
 <template>
   <div class="middleCanvas" @mousedown.stop="$event => cancelSelectElement($event)">
-    <div class="viewport" :style="{
+    <div class="viewport" :style="{ 
         width: viewportWidthRef + 'px',
         height: viewportHeightRef + 'px'
       }">
-
       <creatElement v-if="isCreatElement" />
-      
       <div class="drawingCenter">
         <elementCenterUi ref="elementCenterUi"/>
       </div>
-
-      <div class="operates">
+      <div class="operates">  
         <operates ref="operates"/>
       </div>
-
-      
     </div>
   </div>
 </template>
@@ -44,7 +39,6 @@ export default defineComponent({
     const cancelSelectElement = () => {
       store.commit("CANCEL_ALL_SELECT_SHAPE")
     }
-
     return {
       ...useViewportSize(),
       isCreatElement,

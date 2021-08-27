@@ -16,7 +16,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import useCreateElementWraper from "./hooks/useCreateElementWraper"
-
 export default defineComponent({
   name: 'creatElement',
   setup() {

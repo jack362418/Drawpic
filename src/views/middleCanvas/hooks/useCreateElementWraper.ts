@@ -32,7 +32,7 @@ export default () => {
         /**
          * 上下左右均可移动
          * 
-         */
+        */
         document.onmousemove = (e:MouseEvent) => {
             elementPositionRef.value.width = Math.abs(e.clientX - clientX) 
             elementPositionRef.value.height = Math.abs(e.clientY - clientY) 
