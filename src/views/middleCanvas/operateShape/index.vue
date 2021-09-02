@@ -3,7 +3,8 @@
         <div class="shapeWrapper" :style="{
             left: selectShapeRef.x + 'px',
             top: selectShapeRef.y + 'px',
-            transform: 'rotate(0deg)'
+            transform: `rotate(${selectShapeRef.rotate}deg)`,
+            transformOrigin: `${selectShapeRef.width/2}px ${selectShapeRef.height/2+3}px`
         }">
             <div class="shape-element-operate">
                 <!-- 四条虚线 -->
@@ -15,7 +16,7 @@
                         left: item.style.left + 'px'
                     }"></div>
                 </template>
-                <!-- 四个顶点 -->
+                <!-- 八个顶点 -->
                 <template v-for="item in elementShapeOperate.elementSpotRef" :key="item.type">
                     <div :class="['resize-operate',item.type]" :style="{
                             top: item.style.top + 'px',
@@ -25,12 +26,17 @@
                     > </div>
                     
                 </template>
-                <template v-if="elementShapeOperate.elementBorderRef.length"> 
-                    <div class="rotate-operate" :style="{
+                <!-- 旋转 -->
+                <!-- <template v-if="elementShapeOperate.elementBorderRef.length"> 
+                    <div class="rotate-operate" 
+                    :style="{
                         top: '-25px',
                         left: selectShapeRef.width / 2 + 'px'
-                    }"></div>
-                </template>
+                    }"
+                    @mousedown.stop="$event => operateUpdateShapeRotate($event,selectShapeRef)"
+                    ref="rotateOperate"
+                    ></div>
+                </template> -->
             </div>
         </div>
   </div>
@@ -47,6 +53,7 @@ export default defineComponent({
   name: 'operateShape',
   setup() {
     const store = useStore()
+    const rotateOperate = ref<HTMLElement>()
     const shapeElementList = computed<State['elementShapeArr']>(() => store.state.app.elementShapeArr)
     const selectShapeRef = ref<ShapeObj>() 
     const elementShapeOperate = ref()
@@ -69,13 +76,18 @@ export default defineComponent({
     }
     watchEffect(getSelectElementShape)
 
-    const { operateUpdateShapeEle } = useChangeShapSize()
+    
+
+    const { operateUpdateShapeEle,operateUpdateShapeRotate } = useChangeShapSize(rotateOperate)
     
     
     return {
         selectShapeRef,
         elementShapeOperate,
-        operateUpdateShapeEle
+        rotateOperate,
+        operateUpdateShapeEle,
+        operateUpdateShapeRotate,
+        
     }
   }
 })

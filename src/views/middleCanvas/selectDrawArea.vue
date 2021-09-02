@@ -1,12 +1,14 @@
 <template>
   <div class="selectDrawArea" ref="creatElementRef" @mousedown.stop="$event => createElement($event)">
-    
-    <div class="areaBox" v-if="isStartRef" :style="{
+    <div class="areaBox" 
+       v-if="isStartRef && (elementPositionRef.width >= 10 || elementPositionRef.height >= 10)"
+       :style="{
         width: elementPositionRef.width + 'px',
         height: elementPositionRef.height + 'px',
         top: elementPositionRef.y + 'px',
         left: elementPositionRef.x + 'px'
-    }"></div>
+       }"
+    ></div>
   </div>
 </template>
 
@@ -18,7 +20,7 @@ export default defineComponent({
   setup() {
         /**
          * 绘制鼠标区域
-         */
+        */
         const isCreateNode = false
         const selectDrawArea = useCommCreateElement(isCreateNode)
 
@@ -41,6 +43,7 @@ export default defineComponent({
           position: absolute;
           border:  2px solid #0000DD;
           z-index: 9999;
+          opacity: 0.5;
       }
     }
 </style>

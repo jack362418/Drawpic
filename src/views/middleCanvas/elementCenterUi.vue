@@ -4,7 +4,8 @@
         <div class="shape" :style="{
                 top: it.y + 'px',
                 left: it.x + 'px',
-                zIndex: idx
+                zIndex: idx,
+                transform: `rotate(${it.rotate}deg)`
             }"
             :class="{
                 'shapeMove': it.isSelect
@@ -43,7 +44,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent,computed } from 'vue'
+import { defineComponent,computed,ref } from 'vue'
 import { useStore } from '@/store'
 import useChangeShapSize from "./hooks/useChangeShapSize"
 
@@ -54,8 +55,8 @@ export default defineComponent({
       const elementShapeArr = computed(() => {
           return store.state.app.elementShapeArr
       })
-
-      const { changeShapEleSize } = useChangeShapSize()
+      const rotateOperate = ref<HTMLElement>()
+      const { changeShapEleSize } = useChangeShapSize(rotateOperate)
 
       return {
           elementShapeArr,

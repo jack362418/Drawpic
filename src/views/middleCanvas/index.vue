@@ -3,7 +3,9 @@
     <div class="viewport" :style="{ 
         width: viewportWidthRef + 'px',
         height: viewportHeightRef + 'px'
-      }">
+      }"
+      ref="viewport"
+      >
       <creatElement v-if="isCreatElement" />
       <div class="drawingCenter">
         <elementCenterUi ref="elementCenterUi"/>

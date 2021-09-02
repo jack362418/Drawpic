@@ -6,7 +6,8 @@ export interface ShapeObj {
     path: string,
     viewBox: number,
     id: string,
-    isSelect: boolean
+    isSelect: boolean,
+    rotate: number
 }
 export interface State {
     /**

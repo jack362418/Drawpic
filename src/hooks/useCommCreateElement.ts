@@ -9,6 +9,7 @@ export interface ElementPosition {
     x: number,
     y:number
 }
+
 export default (isCreateNode:boolean) => {
     const store = useStore()
     const elementPositionRef = ref<ElementPosition>({
@@ -76,14 +77,22 @@ export default (isCreateNode:boolean) => {
               ...elementPositionRef.value,
               ...store.state.app.singleGraph,
               isSelect:true,
-              id: uuid()
+              id: uuid(),
+              rotate:0
             }
             if(isCreateNode) {
               store.commit("CANCEL_CREATE_EL",false)
               store.commit("SET_ELEMENT_SHAPE_ARR",elementObj)
             }else {
                const { selectShapAreaLight } = useSelectDrawArea()
-               selectShapAreaLight(elementPositionRef.value)
+               const elementSelectPosition = JSON.parse(JSON.stringify(elementPositionRef.value))
+               elementPositionRef.value = {
+                  width:0,
+                  height:0,
+                  x:0,
+                  y:0
+               }
+               selectShapAreaLight(elementSelectPosition)
             }
         }
     }
