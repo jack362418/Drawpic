@@ -55,8 +55,8 @@ export default defineComponent({
       const elementShapeArr = computed(() => {
           return store.state.app.elementShapeArr
       })
-      const rotateOperate = ref<HTMLElement>()
-      const { changeShapEleSize } = useChangeShapSize(rotateOperate)
+    //   const rotateOperate = ref<HTMLElement>()
+      const { changeShapEleSize } = useChangeShapSize()
 
       return {
           elementShapeArr,

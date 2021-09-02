@@ -27,3 +27,8 @@ export const enum OperateResizeBorder {
     BOTTOM = 'bottom',
     LEFT = 'left',
 }
+
+export interface viewPosition {
+    x: number,
+    y: number
+}

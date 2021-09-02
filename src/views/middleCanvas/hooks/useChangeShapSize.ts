@@ -1,7 +1,8 @@
 import { Ref } from 'vue'
 import { useStore } from '@/store'
 import { ShapeObj } from '@/store/modules/type'
-export default (rotateOperate: Ref<HTMLElement | undefined>) => {
+import { viewPosition } from "@/types/shape"
+export default () => {
     const store = useStore()
     
     /**
@@ -122,15 +123,14 @@ export default (rotateOperate: Ref<HTMLElement | undefined>) => {
      * 改变旋转度数
      * 180 / Math.PI * (Math.atan2(10,0))  x,y
      */
-    const operateUpdateShapeRotate = (e:MouseEvent,selectShapeRef: ShapeObj) => {
-        if (!rotateOperate.value) return
-        const rotateOperateStyle = rotateOperate.value.getBoundingClientRect()
-        const centerX = rotateOperateStyle.left + rotateOperateStyle.width / 2 
-        const centerY = rotateOperateStyle.top + rotateOperateStyle.height / 2 
+    const operateUpdateShapeRotate = (e:MouseEvent,selectShapeRef: ShapeObj,viewportObjRef:viewPosition) => {
+        const centerX = selectShapeRef.x + selectShapeRef.width / 2 
+        const centerY = selectShapeRef.y + selectShapeRef.height / 2 
         document.onmousemove = (e:MouseEvent) => {
-            const x = e.clientX - centerX
-            const y = centerY - (e.clientY)
-            if(Math.abs(y) <= 5) return
+            const mouseX = e.pageX - viewportObjRef.x
+            const mouseY = e.pageY - viewportObjRef.y
+            const x = mouseX - centerX
+            const y = centerY - mouseY
             const angle = 180 / Math.PI * (Math.atan2(x,y))
             selectShapeRef.rotate = angle
             store.commit("UPDATE_ELEMENT_SHAPE",selectShapeRef)

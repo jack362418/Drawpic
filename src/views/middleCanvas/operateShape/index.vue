@@ -27,23 +27,23 @@
                     
                 </template>
                 <!-- 旋转 -->
-                <!-- <template v-if="elementShapeOperate.elementBorderRef.length"> 
+                <template v-if="elementShapeOperate.elementBorderRef.length"> 
                     <div class="rotate-operate" 
                     :style="{
                         top: '-25px',
                         left: selectShapeRef.width / 2 + 'px'
                     }"
-                    @mousedown.stop="$event => operateUpdateShapeRotate($event,selectShapeRef)"
+                    @mousedown.stop="$event => operateUpdateShapeRotate($event,selectShapeRef,viewportObjRef)"
                     ref="rotateOperate"
                     ></div>
-                </template> -->
+                </template>
             </div>
         </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent,watchEffect,ref } from 'vue'
+import { computed, defineComponent,watchEffect,ref,onMounted } from 'vue'
 import { useStore } from '@/store'
 import { ShapeObj,State } from '@/store/modules/type'
 import useOperateShapeLine from '../hooks/useOperateShapeLine'
@@ -51,12 +51,22 @@ import useChangeShapSize from "../hooks/useChangeShapSize"
 
 export default defineComponent({
   name: 'operateShape',
-  setup() {
+  props:{
+      viewport:{
+          type: Object,
+          required: true,
+      }
+  },
+  setup(props) {
     const store = useStore()
     const rotateOperate = ref<HTMLElement>()
     const shapeElementList = computed<State['elementShapeArr']>(() => store.state.app.elementShapeArr)
     const selectShapeRef = ref<ShapeObj>() 
     const elementShapeOperate = ref()
+    const viewportObjRef = ref({
+        x:0,
+        y:0
+    })
     
     const getSelectElementShape = () => {
         const filterSelectShape = shapeElementList.value.filter(item => item.isSelect)
@@ -75,10 +85,14 @@ export default defineComponent({
         }
     }
     watchEffect(getSelectElementShape)
-
     
-
-    const { operateUpdateShapeEle,operateUpdateShapeRotate } = useChangeShapSize(rotateOperate)
+    onMounted(() => {
+        if(!props.viewport) return
+        const {x,y} = props.viewport.getBoundingClientRect()
+        viewportObjRef.value.x = x
+        viewportObjRef.value.y = y
+    })
+    const { operateUpdateShapeEle,operateUpdateShapeRotate } = useChangeShapSize()
     
     
     return {
@@ -87,7 +101,7 @@ export default defineComponent({
         rotateOperate,
         operateUpdateShapeEle,
         operateUpdateShapeRotate,
-        
+        viewportObjRef
     }
   }
 })

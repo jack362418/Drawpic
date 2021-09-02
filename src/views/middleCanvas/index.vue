@@ -11,7 +11,7 @@
         <elementCenterUi ref="elementCenterUi"/>
       </div>
       <div class="operates">  
-        <operates ref="operates"/>
+        <operates ref="operates" :viewport="viewport" v-if="viewport"/>
       </div>
       <selectDrawArea v-if="!isCreatElement"/>
     </div>
@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import { useStore } from '@/store'
 import useViewportSize from './hooks/useViewportSize'
 import creatElement from './createElementWraper.vue'
@@ -38,6 +38,7 @@ export default defineComponent({
   setup() {
     const store = useStore()
     const isCreatElement = computed(() => store.state.app.isCreatElement)
+    const viewport = ref<HTMLElement>()
     /**
      * 取消所有选中的图形
      */
@@ -47,7 +48,8 @@ export default defineComponent({
     return {
       ...useViewportSize(),
       isCreatElement,
-      cancelSelectElement
+      cancelSelectElement,
+      viewport
     }
   }
 })
