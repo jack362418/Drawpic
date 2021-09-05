@@ -16,6 +16,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import useCreateElementWraper from '@/hooks/useCommCreateElement'
+import useSelectDrawArea from "@/views/middleCanvas/hooks/useSelectDrawArea" 
 export default defineComponent({
   name: 'creatElement',
   setup() {
@@ -24,6 +25,7 @@ export default defineComponent({
          */
         const isCreateNode = true
         const creactElementShap = useCreateElementWraper(isCreateNode)
+        // useSelectDrawArea()
         return {
             ...creactElementShap
         }

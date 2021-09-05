@@ -83,6 +83,8 @@ export default (isCreateNode:boolean) => {
             if(isCreateNode) {
               store.commit("CANCEL_CREATE_EL",false)
               store.commit("SET_ELEMENT_SHAPE_ARR",elementObj)
+              store.commit("SET_MULTIPLE_TYPE",false)
+              store.commit("CANCEL_MULTIPLE_SHAPE")
             }else {
                const { selectShapAreaLight } = useSelectDrawArea()
                const elementSelectPosition = JSON.parse(JSON.stringify(elementPositionRef.value))
@@ -92,7 +94,9 @@ export default (isCreateNode:boolean) => {
                   x:0,
                   y:0
                }
-               selectShapAreaLight(elementSelectPosition)
+               const shapeElementList = store.state.app.elementShapeArr
+               const multipleSelectShape = selectShapAreaLight(elementSelectPosition,shapeElementList)
+               store.commit("MULTIPLE_SELECT_SHAPE",multipleSelectShape)
             }
         }
     }

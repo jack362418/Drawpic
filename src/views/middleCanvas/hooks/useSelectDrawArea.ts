@@ -1,11 +1,20 @@
-import { useStore } from '@/store'
-import {ElementPosition} from '@/hooks/useCommCreateElement'
+import { ElementPosition } from '@/hooks/useCommCreateElement'
+import { State } from '@/store/modules/type'
 export default () => {
-    const store = useStore()
-    const selectShapAreaLight = (elementSelectPosition:ElementPosition) => {
-        console.log("执行数据",elementSelectPosition)
-        
-    }
+    const selectShapAreaLight = (elementSelectPosition:ElementPosition,shapeElementList:State['elementShapeArr']) => {
+        const maxX = elementSelectPosition.x + elementSelectPosition.width
+        const maxY = elementSelectPosition.y + elementSelectPosition.height
+        const x = elementSelectPosition.x
+        const y = elementSelectPosition.y
+        const newSelectShape:State['elementShapeArr'] = []
+        shapeElementList.forEach(item => {
+            if(maxX > (item.x+item.width) && maxY > (item.y+item.height) && x < item.x && y < item.y) {
+                newSelectShape.push(item)
+            }
+           
+        })
+        return newSelectShape
+    }   
 
     return {
         selectShapAreaLight

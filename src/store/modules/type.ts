@@ -32,5 +32,13 @@ export interface State {
     /**
      * 存储所有的编辑中的图形
      */
-    elementShapeArr: ShapeObj[]
+    elementShapeArr: ShapeObj[],
+    /**
+     * 多选图形
+     */
+    multipleShapeArr: ShapeObj[],
+    /**
+     * 是否处于多选状态
+     */
+    isMultiple:boolean
 }

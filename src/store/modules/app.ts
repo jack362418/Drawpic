@@ -11,7 +11,9 @@ const app:Module<State, any> = {
             path:""
         },
         isCreatElement: false,
-        elementShapeArr:[]
+        elementShapeArr:[],
+        multipleShapeArr:[],
+        isMultiple: false
     },  
     getters:{
         layout:(state) => {
@@ -68,6 +70,18 @@ const app:Module<State, any> = {
             state.elementShapeArr = state.elementShapeArr.map(item => {
                 return {...item,isSelect:false}
             })
+        },
+        MULTIPLE_SELECT_SHAPE: (state,multipleSelectShape:State['multipleShapeArr']) => {
+            state.multipleShapeArr = []
+            state.multipleShapeArr = multipleSelectShape?.map(item => {
+                return {...item}
+            })
+        },
+        CANCEL_MULTIPLE_SHAPE: (state) => {
+            state.multipleShapeArr = []
+        },
+        SET_MULTIPLE_TYPE: (state,flag) => {
+            state.isMultiple = flag
         }
     },
     actions: {

@@ -1,7 +1,7 @@
-import { Ref } from 'vue'
 import { useStore } from '@/store'
 import { ShapeObj } from '@/store/modules/type'
 import { viewPosition } from "@/types/shape"
+
 export default () => {
     const store = useStore()
     
@@ -121,7 +121,6 @@ export default () => {
     }
     /**
      * 改变旋转度数
-     * 180 / Math.PI * (Math.atan2(10,0))  x,y
      */
     const operateUpdateShapeRotate = (e:MouseEvent,selectShapeRef: ShapeObj,viewportObjRef:viewPosition) => {
         const centerX = selectShapeRef.x + selectShapeRef.width / 2 
@@ -131,7 +130,17 @@ export default () => {
             const mouseY = e.pageY - viewportObjRef.y
             const x = mouseX - centerX
             const y = centerY - mouseY
-            const angle = 180 / Math.PI * (Math.atan2(x,y))
+            let angle = 180 / Math.PI * (Math.atan2(x,y))
+            const sorptionRange = 5
+            if ( Math.abs(angle) <= sorptionRange ) angle = 0
+            else if ( angle > 0 && Math.abs(angle - 45) <= sorptionRange ) angle -= (angle - 45)
+            else if ( angle < 0 && Math.abs(angle + 45) <= sorptionRange ) angle -= (angle + 45)
+            else if ( angle > 0 && Math.abs(angle - 90) <= sorptionRange ) angle -= (angle - 90)
+            else if ( angle < 0 && Math.abs(angle + 90) <= sorptionRange ) angle -= (angle + 90)
+            else if ( angle > 0 && Math.abs(angle - 135) <= sorptionRange ) angle -= (angle - 135)
+            else if ( angle < 0 && Math.abs(angle + 135) <= sorptionRange ) angle -= (angle + 135)
+            else if ( angle > 0 && Math.abs(angle - 180) <= sorptionRange ) angle -= (angle - 180)
+            else if ( angle < 0 && Math.abs(angle + 180) <= sorptionRange ) angle -= (angle + 180)
             selectShapeRef.rotate = angle
             store.commit("UPDATE_ELEMENT_SHAPE",selectShapeRef)
         }

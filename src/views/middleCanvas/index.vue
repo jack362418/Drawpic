@@ -12,6 +12,7 @@
       </div>
       <div class="operates">  
         <operates ref="operates" :viewport="viewport" v-if="viewport"/>
+        <moveAreaShape ref="moveAreaShape"/>
       </div>
       <selectDrawArea v-if="!isCreatElement"/>
     </div>
@@ -26,6 +27,7 @@ import creatElement from './createElementWraper.vue'
 import elementCenterUi from './elementCenterUi.vue'
 import operates from './operateShape/index.vue'
 import selectDrawArea from './selectDrawArea.vue'
+import moveAreaShape from './operateShape/moveAreaShape.vue'
 
 export default defineComponent({
   name: 'middleCanvas',
@@ -33,7 +35,8 @@ export default defineComponent({
     creatElement,
     elementCenterUi,
     operates,
-    selectDrawArea
+    selectDrawArea,
+    moveAreaShape
   },
   setup() {
     const store = useStore()
@@ -44,6 +47,10 @@ export default defineComponent({
      */
     const cancelSelectElement = () => {
       store.commit("CANCEL_ALL_SELECT_SHAPE")
+      if(store.state.app.isMultiple) {
+        store.commit("SET_MULTIPLE_TYPE",false)
+        store.commit("CANCEL_MULTIPLE_SHAPE")
+      }
     }
     return {
       ...useViewportSize(),
