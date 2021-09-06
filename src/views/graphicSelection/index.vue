@@ -52,6 +52,7 @@ export default defineComponent({
     const shapeSvgRef = ref(shapeSvg)
     
     const selectShap = (shape:ChildrenOption) => {
+      // store.commit("CANCEL_ALL_SELECT_SHAPE")
       store.commit("SET_SIGN_PATH",shape)
     }
 

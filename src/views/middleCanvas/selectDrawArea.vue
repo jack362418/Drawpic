@@ -13,16 +13,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent,inject } from 'vue'
 import useCommCreateElement from '@/hooks/useCommCreateElement'
 export default defineComponent({
   name: 'selectDrawArea',
   setup() {
+    
         /**
          * 绘制鼠标区域
         */
+        const cancelSelectElement = inject<() => void>('cancelSelectElement') 
         const isCreateNode = false
-        const selectDrawArea = useCommCreateElement(isCreateNode)
+        const selectDrawArea = useCommCreateElement(isCreateNode,cancelSelectElement)
 
         return {
             ...selectDrawArea

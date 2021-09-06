@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent,inject } from 'vue'
 import useCreateElementWraper from '@/hooks/useCommCreateElement'
 import useSelectDrawArea from "@/views/middleCanvas/hooks/useSelectDrawArea" 
 export default defineComponent({
@@ -23,8 +23,9 @@ export default defineComponent({
         /**
          * 创建节点
          */
+        const cancelSelectElement = inject<() => void>('cancelSelectElement') 
         const isCreateNode = true
-        const creactElementShap = useCreateElementWraper(isCreateNode)
+        const creactElementShap = useCreateElementWraper(isCreateNode,cancelSelectElement)
         // useSelectDrawArea()
         return {
             ...creactElementShap

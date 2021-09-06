@@ -8,7 +8,7 @@
       >
       <creatElement v-if="isCreatElement" />
       <div class="drawingCenter">
-        <elementCenterUi ref="elementCenterUi"/>
+        <elementCenterUi ref="elementCenterUiRef"/>
       </div>
       <div class="operates">  
         <operates ref="operates" :viewport="viewport" v-if="viewport"/>
@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
+import { computed, defineComponent, ref,provide} from 'vue'
 import { useStore } from '@/store'
 import useViewportSize from './hooks/useViewportSize'
 import creatElement from './createElementWraper.vue'
@@ -42,21 +42,25 @@ export default defineComponent({
     const store = useStore()
     const isCreatElement = computed(() => store.state.app.isCreatElement)
     const viewport = ref<HTMLElement>()
+    const elementCenterUiRef = ref()
     /**
      * 取消所有选中的图形
      */
     const cancelSelectElement = () => {
+      elementCenterUiRef.value.setShapeHtml()
       store.commit("CANCEL_ALL_SELECT_SHAPE")
       if(store.state.app.isMultiple) {
         store.commit("SET_MULTIPLE_TYPE",false)
         store.commit("CANCEL_MULTIPLE_SHAPE")
       }
     }
+    provide('cancelSelectElement',cancelSelectElement)
     return {
       ...useViewportSize(),
       isCreatElement,
       cancelSelectElement,
-      viewport
+      viewport,
+      elementCenterUiRef
     }
   }
 })

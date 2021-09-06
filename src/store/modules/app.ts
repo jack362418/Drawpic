@@ -68,7 +68,7 @@ const app:Module<State, any> = {
         },
         CANCEL_ALL_SELECT_SHAPE: (state) => {
             state.elementShapeArr = state.elementShapeArr.map(item => {
-                return {...item,isSelect:false}
+                return {...item,isSelect:false,isDbclick:false}
             })
         },
         MULTIPLE_SELECT_SHAPE: (state,multipleSelectShape:State['multipleShapeArr']) => {
@@ -82,6 +82,11 @@ const app:Module<State, any> = {
         },
         SET_MULTIPLE_TYPE: (state,flag) => {
             state.isMultiple = flag
+        },
+        CANCEL_ALL_DBCLICK_TYPE:(state) => {
+            state.elementShapeArr = state.elementShapeArr.map(item => {
+                return {...item,isDbclick:false}
+            })
         }
     },
     actions: {

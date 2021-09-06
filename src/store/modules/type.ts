@@ -7,7 +7,13 @@ export interface ShapeObj {
     viewBox: number,
     id: string,
     isSelect: boolean,
-    rotate: number
+    rotate: number,
+    textShape:{
+        text: string,
+        fontSize?: number,
+        color?: string
+    },
+    isDbclick:boolean
 }
 export interface State {
     /**

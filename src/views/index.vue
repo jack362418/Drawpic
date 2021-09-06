@@ -1,4 +1,7 @@
 <template>
+  <div class="header">
+    垃圾芋头 傻逼
+  </div>
   <div class="index flex">
     <graphicSelection
       :style="{
@@ -45,8 +48,11 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+  .header{
+    height: 35px;
+  }
   .index{
-    height: 100%;
+    height: calc(100% - 35px)
   }
 </style>
 

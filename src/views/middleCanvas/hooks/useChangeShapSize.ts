@@ -2,13 +2,16 @@ import { useStore } from '@/store'
 import { ShapeObj } from '@/store/modules/type'
 import { viewPosition } from "@/types/shape"
 
-export default () => {
+export default (setShapeHtml?:() => void) => {
     const store = useStore()
     
     /**
      * 移动改变位置
      */
     const changeShapEleSize = (e:MouseEvent,it: ShapeObj) => {
+        if(setShapeHtml) {
+            setShapeHtml()
+        }
         if(!it.isSelect) {
             document.onmousemove = null
             document.onmouseup = null
@@ -19,6 +22,8 @@ export default () => {
         const disX = e.clientX - shapeItem.x
         const disY = e.clientY - shapeItem.y
         document.onmousemove = (e:MouseEvent) => {
+            /** 是否处于编辑文字中 */
+            if(it.isDbclick) return 
             it.x = e.clientX - disX
             it.y = e.clientY - disY
         }

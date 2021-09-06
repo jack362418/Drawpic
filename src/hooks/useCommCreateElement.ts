@@ -10,7 +10,7 @@ export interface ElementPosition {
     y:number
 }
 
-export default (isCreateNode:boolean) => {
+export default (isCreateNode:boolean,cancelSelectElement?:() => void) => {
     const store = useStore()
     const elementPositionRef = ref<ElementPosition>({
         width:0,
@@ -39,9 +39,11 @@ export default (isCreateNode:boolean) => {
         const clientY = e.clientY
         elementPositionRef.value.x = clientX - el.x
         elementPositionRef.value.y = clientY - el.y
-        if(!isCreateNode) {
-            store.commit("CANCEL_ALL_SELECT_SHAPE")
+        if(cancelSelectElement) {
+          cancelSelectElement()
         }
+        store.commit("CANCEL_ALL_SELECT_SHAPE")
+        
         /**
          * 上下左右均可移动
          * 
@@ -78,7 +80,12 @@ export default (isCreateNode:boolean) => {
               ...store.state.app.singleGraph,
               isSelect:true,
               id: uuid(),
-              rotate:0
+              rotate:0,
+              textShape:{
+                text: "",
+                fontSize: 12,
+                color: "#000"
+              }
             }
             if(isCreateNode) {
               store.commit("CANCEL_CREATE_EL",false)

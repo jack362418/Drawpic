@@ -6,7 +6,7 @@
                 width: maxAreaShapRef.width + 'px',
                 height: maxAreaShapRef.height + 'px'
             }"
-             @mousedown.stop="$event => {}"
+             @mousedown.stop="$event => moveAreaShape($event,maxAreaShapRef)"
         >
              <div class="shape-element-operate">
                 <!-- 四条虚线 -->
@@ -28,6 +28,7 @@ import { computed, defineComponent,watchEffect,ref } from 'vue'
 import { useStore } from '@/store'
 import { ShapeObj,State } from '@/store/modules/type'
 import useOperateShapeLine from '../hooks/useOperateShapeLine'
+import useMoveAreaShape from '../hooks/useMoveAreaShap'
 
 export default defineComponent({
   name: 'moveAreaShape',
@@ -68,9 +69,12 @@ export default defineComponent({
 
       watchEffect(getMultipleShapeArr)
 
+      const { moveAreaShape } = useMoveAreaShape()
+
       return {
           maxAreaShapRef,
-          elementShapeOperate
+          elementShapeOperate,
+          moveAreaShape
       }
   }
 })
