@@ -85,9 +85,6 @@ export default defineComponent({
          it.isDbclick = true
          store.commit("CANCEL_SELECT_SHAPE",it)
       }
-
-      
-
       return {
           elementShapeArr,
           changeShapEleSize,

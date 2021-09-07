@@ -29,7 +29,10 @@ export interface State {
      */
     singleGraph: {
         path: string,
-        viewBox?: number
+        viewBox?: number,
+        isLine?: boolean,
+        style?: string,
+        tip?: string
     },
     /**
      * 是否处于创建图形阶段

@@ -2,7 +2,10 @@
 export interface ChildrenOption {
     viewBox: number,
     path: string,
-    name?: string
+    name?: string,
+    isLine?: boolean,
+    style?: string,
+    tip?: string
 }
 
 export interface ShapeOption {

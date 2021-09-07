@@ -8,7 +8,8 @@
             </template>
             <a-collapse-panel v-for="(item,index) in shapeSvgRef" :key="index" :header="item.type">
               <div v-for="(it,idx) in item.children" :key="idx" class="shapeItem" @click="selectShap(it)"> 
-                 <svg 
+                <template v-if="!it.isLine">
+                  <svg 
                     overflow="visible" 
                     width="18"
                     height="18"
@@ -32,6 +33,11 @@
                         ></path>
                     </g>
                   </svg>
+                </template>
+                <template v-else> 
+                  <!-- 直线 -->
+                  <lineTool :shapeItem='it' :idx='idx'/>
+                </template>
               </div>
             </a-collapse-panel>
           </a-collapse>
@@ -45,8 +51,12 @@ import { defineComponent,ref } from 'vue'
 import { shapeSvg } from '@/config/shapeSvg'
 import { ChildrenOption } from '@/types/shape' 
 import { useStore } from '@/store'
+import lineTool from './lineTool.vue'
 export default defineComponent({
   name: 'graphicSelection',
+  components:{
+    lineTool
+  },
   setup() {
     const store = useStore()
     const shapeSvgRef = ref(shapeSvg)
@@ -88,6 +98,7 @@ export default defineComponent({
             height: 35px;
             &:hover .shape-path {
               stroke: #409EFF;
+              fill: #409EFF;
               cursor: pointer;
             }
           }

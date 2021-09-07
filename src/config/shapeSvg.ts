@@ -1,5 +1,7 @@
 import { ShapeOption } from '@/types/shape' 
 
+
+
 export const shapeSvg:ShapeOption[] = [
     {
         type: "通用",
@@ -12,10 +14,10 @@ export const shapeSvg:ShapeOption[] = [
                 viewBox: 200,
                 path: 'M 20 0 L 180 0 Q 200 0 200 20 L 200 180 Q 200 200 180 200 L 20 200 Q 0 200 0 180 L 0 20 Q 0 0 20 0 Z'
             },
-            {
-                viewBox: 200,
-                path: 'M 16 208 L 72 80 L 216 80 L 272 208 Z'
-            },
+            // {
+            //     viewBox: 200,
+            //     path: 'M 16 208 L 72 80 L 216 80 L 272 208 Z'
+            // },
             {
                 viewBox: 200,
                 path: 'M 100 0 A 50 50 0 1 1 100 200 A 50 50 0 1 1 100 0 Z'
@@ -80,6 +82,46 @@ export const shapeSvg:ShapeOption[] = [
                 viewBox: 200,
                 path: 'M 100 0 L 0 90 L 50 200 L 150 200 L 200 90 L 100 0 Z'
               },
+              /**
+               * 直线
+               */
+              {
+                viewBox: 200,
+                path: 'M 0 0 L 20 20',
+                isLine: true,
+                style: 'solid',
+                tip:""
+              },
+              /**
+               * 虚线
+               */
+              {
+                viewBox: 200,
+                path: 'M 0 0 L 20 20',
+                isLine: true,
+                style: 'dashed',
+                tip:""
+              },
+               /**
+               * 直线带箭头
+               */
+              {
+                viewBox: 200,
+                path: 'M 0 0 L 20 20',
+                isLine: true,
+                style: 'solid',
+                tip:"end-arrow"
+              },
+               /**
+               * 虚线带箭头
+               */
+                {
+                  viewBox: 200,
+                  path: 'M 0 0 L 20 20',
+                  isLine: true,
+                  style: 'dashed',
+                  tip:"end-arrow"
+                },
         ]
     },
     {
