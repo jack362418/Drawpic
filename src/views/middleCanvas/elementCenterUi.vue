@@ -83,6 +83,7 @@ export default defineComponent({
       /** 双击编辑 */
       const changeShapeText = (it:ShapeObj) => {
          it.isDbclick = true
+         store.commit("CANCEL_SELECT_SHAPE",it)
       }
 
       
