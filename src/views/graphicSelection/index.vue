@@ -51,7 +51,7 @@ import { defineComponent,ref } from 'vue'
 import { shapeSvg } from '@/config/shapeSvg'
 import { ChildrenOption } from '@/types/shape' 
 import { useStore } from '@/store'
-import lineTool from './lineTool.vue'
+import lineTool from '@/components/lineTool.vue'
 export default defineComponent({
   name: 'graphicSelection',
   components:{

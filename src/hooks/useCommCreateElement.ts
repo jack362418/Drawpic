@@ -98,7 +98,7 @@ export default (isCreateNode:boolean,cancelSelectElement?:() => void) => {
         document.onmouseup = (e:MouseEvent) => {
             document.onmousemove = null
             document.onmouseup = null
-            const elementObj = {
+            const elementShape = {
               ...elementPositionRef.value,
               ...store.state.app.singleGraph,
               isSelect:true,
@@ -110,9 +110,12 @@ export default (isCreateNode:boolean,cancelSelectElement?:() => void) => {
                 color: "#000"
               }
             }
+            if(elementShape.isLine) {
+              elementShape.path = linePathRef.value
+            }
             if(isCreateNode) {
               store.commit("CANCEL_CREATE_EL",false)
-              store.commit("SET_ELEMENT_SHAPE_ARR",elementObj)
+              store.commit("SET_ELEMENT_SHAPE_ARR",elementShape)
               store.commit("SET_MULTIPLE_TYPE",false)
               store.commit("CANCEL_MULTIPLE_SHAPE")
             }else {
