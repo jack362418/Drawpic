@@ -2,8 +2,8 @@
   <div class="lineTool">
      <svg 
         overflow="visible" 
-        width="18"
-        height="18"
+        :width="shapeItem.width ? (shapeItem.width >= 24 ? shapeItem.width : 24) : 18"
+        :height="shapeItem.height ? (shapeItem.height >= 24 ? shapeItem.height : 24) : 18"
         xmlns="http://www.w3.org/2000/svg" 
         xmlnsXlink="http://www.w3.org/1999/xlink" 
         version="1.1"
@@ -21,7 +21,7 @@
                 > 
                     <path
                         d="M0,0 L10,5 0,10 Z"
-                        fill="#999"
+                        :fill="lineShape ? lineShape.color: '#999'"
                         transform="scale(0.6, 0.6) rotate(0, 5, 5)"
                     >
                     </path>
@@ -34,7 +34,7 @@
                 stroke-miterlimit="8"
                 stroke-linejoin="inherit"
                 fill="transparent"
-                stroke="#999"
+                :stroke="lineShape ? lineShape.color: '#999'"
                 stroke-width="2" 
                 :stroke-dasharray="shapeItem.style === 'solid' ? '0, 0' : '4, 1'"
                 :d="shapeItem.path"
@@ -56,7 +56,8 @@ export default defineComponent({
       idx:{
           type: Number,
           required: true,
-      }
+      },
+      lineShape: Object
   }
 })
 </script>

@@ -31,6 +31,10 @@ export const enum OperateResizeBorder {
     LEFT = 'left',
 }
 
+export const enum OperateResizeStraight {
+    START = 'start',
+    END = 'end'
+}
 export interface viewPosition {
     x: number,
     y: number

@@ -1,13 +1,13 @@
 <template>
   <div class="operateShape" v-if="selectShapeRef">
-        <div class="shapeWrapper" :style="{
+        <div class="shapeWrapper" v-if="!selectShapeRef.isLine" :style="{
             left: selectShapeRef.x + 'px',
             top: selectShapeRef.y + 'px',
             transform: `rotate(${selectShapeRef.rotate}deg)`,
             transformOrigin: `${selectShapeRef.width/2}px ${selectShapeRef.height/2+3}px`
         }">
             <div class="shape-element-operate">
-                <!-- 四条虚线 -->
+                 <!-- 四条虚线 -->
                 <template v-for="item in elementShapeOperate.elementBorderRef" :key="item.type">
                     <div :class="['borderLine',item.type]" :style="{
                         width: item.style.width + 'px',
@@ -37,8 +37,19 @@
                     ref="rotateOperate"
                     ></div>
                 </template>
+               
             </div>
         </div>
+
+        <div class="shapeWrapper" v-else :style="{
+            left: selectShapeRef.x + 'px',
+            top: selectShapeRef.y + 'px'
+        }">
+            <div class="shape-element-operate">
+                <lineOperate v-if="selectShapeRef && viewportObjRef.x" :selectShape="selectShapeRef" :viewportObjRef="viewportObjRef"/>
+            </div>
+        </div>
+
   </div>
 </template>
 
@@ -48,7 +59,7 @@ import { useStore } from '@/store'
 import { ShapeObj,State } from '@/store/modules/type'
 import useOperateShapeLine from '../hooks/useOperateShapeLine'
 import useChangeShapSize from "../hooks/useChangeShapSize"
-
+import lineOperate from './lineOperate.vue'
 export default defineComponent({
   name: 'operateShape',
   props:{
@@ -56,6 +67,9 @@ export default defineComponent({
           type: Object,
           required: true,
       }
+  },
+  components:{
+      lineOperate
   },
   setup(props) {
     const store = useStore()
@@ -93,6 +107,8 @@ export default defineComponent({
         viewportObjRef.value.y = y
     })
     const { operateUpdateShapeEle,operateUpdateShapeRotate } = useChangeShapSize()
+
+   
     
     
     return {

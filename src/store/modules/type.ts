@@ -8,12 +8,18 @@ export interface ShapeObj {
     id: string,
     isSelect: boolean,
     rotate: number,
+    isDbclick:boolean,
     textShape:{
         text: string,
         fontSize?: number,
         color?: string
     },
-    isDbclick:boolean
+    lineShape:{
+        strokeWidth: number,
+        color: string,
+        style: string,
+        quadrant: number
+    }
 }
 export interface State {
     /**

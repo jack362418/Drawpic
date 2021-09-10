@@ -12,41 +12,48 @@
             }"
             @mousedown.stop="$event => changeShapEleSize($event,it)"
         >
-            <svg
-                overflow="visible" 
-                :width="it.width"
-                :height="it.height"
-                xmlns="http://www.w3.org/2000/svg" 
-                xmlnsXlink="http://www.w3.org/1999/xlink" 
-                version="1.1"
-                style="overflow:visible"
-            > 
-                <g 
-                    :transform="`scale(${it.width / (it.viewBox)}, ${it.height / it.viewBox}) translate(0,0) matrix(1,0,0,1,0,0)`"
-                    >
-                    
-                    <path
-                        class="shape-path"
-                        vector-effect="non-scaling-stroke" 
-                        stroke-linecap="butt" 
-                        stroke-miterlimit="8"
-                        stroke-linejoin="inherit"
-                        fill="#409EFF"
-                        stroke="#409EFF"
-                        stroke-width="2" 
-                        :d="it.path"
-                    ></path>
-                </g>
-            </svg>
-            <!-- 双击编辑文字 -->
-            <div class="shape-text" @dblclick="changeShapeText(it)">
-                <div class="editor">
-                    <div :contenteditable="it.isDbclick" :class="{'editorTable': it.isDbclick}" v-html="it.textShape.text" v-if="it.isDbclick" ref="editorShapeEleRef"> </div>
-                    <div v-if="!it.isDbclick">
-                        <div v-html="it.textShape.text"></div>
+            <template v-if="!it.isLine">
+                <svg
+                    overflow="visible" 
+                    :width="it.width"
+                    :height="it.height"
+                    xmlns="http://www.w3.org/2000/svg" 
+                    xmlnsXlink="http://www.w3.org/1999/xlink" 
+                    version="1.1"
+                    style="overflow:visible"
+                > 
+                    <g 
+                        :transform="`scale(${it.width / (it.viewBox)}, ${it.height / it.viewBox}) translate(0,0) matrix(1,0,0,1,0,0)`"
+                        >
+                        
+                        <path
+                            class="shape-path"
+                            vector-effect="non-scaling-stroke" 
+                            stroke-linecap="butt" 
+                            stroke-miterlimit="8"
+                            stroke-linejoin="inherit"
+                            fill="#409EFF"
+                            stroke="#409EFF"
+                            stroke-width="2" 
+                            :d="it.path"
+                        ></path>
+                    </g>
+                </svg>
+                <!-- 双击编辑文字 -->
+                <div class="shape-text" @dblclick="changeShapeText(it)">
+                    <div class="editor">
+                        <div :contenteditable="it.isDbclick" :class="{'editorTable': it.isDbclick}" v-html="it.textShape.text" v-if="it.isDbclick" ref="editorShapeEleRef"> </div>
+                        <div v-if="!it.isDbclick">
+                            <div v-html="it.textShape.text"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </template>
+            <template v-else> 
+                <!-- 直线 -->
+                <lineTool :shapeItem='it' :idx='idx' :lineShape='it.lineShape'/>
+            </template>
+            
         </div>
     </div>
   </div>
@@ -57,9 +64,12 @@ import { defineComponent,computed, ref } from 'vue'
 import { useStore } from '@/store'
 import useChangeShapSize from "./hooks/useChangeShapSize"
 import { ShapeObj } from '@/store/modules/type'
-
+import lineTool from '@/components/lineTool.vue'
 export default defineComponent({
   name: 'elementCenterUi',
+  components:{
+      lineTool
+  },
   setup() {
       const store = useStore()
       const editorShapeEleRef = ref<HTMLElement>()

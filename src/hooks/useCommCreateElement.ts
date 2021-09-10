@@ -13,6 +13,7 @@ export interface ElementPosition {
 export default (isCreateNode:boolean,cancelSelectElement?:() => void) => {
     const store = useStore()
     const linePathRef = ref("M0,0 L0,0")
+    let quadrant = 1
     const elementPositionRef = ref<ElementPosition>({
         width:0,
         height:0,
@@ -51,42 +52,51 @@ export default (isCreateNode:boolean,cancelSelectElement?:() => void) => {
         
         /**
          * 上下左右均可移动
+         * quadrant 直线所在每个区域象限 分别为8个
          * 
         */
         document.onmousemove = (e:MouseEvent) => {
             elementPositionRef.value.width = Math.abs(e.clientX - clientX) 
             elementPositionRef.value.height = Math.abs(e.clientY - clientY) 
-            svgStyleRef.value.width = elementPositionRef.value.width >= 24 ? elementPositionRef.value.width: 24
-            svgStyleRef.value.height = elementPositionRef.value.height >= 24 ? elementPositionRef.value.height: 24
+            svgStyleRef.value.width = elementPositionRef.value.width >= 24 ? elementPositionRef.value.width : 24
+            svgStyleRef.value.height = elementPositionRef.value.height >= 24 ? elementPositionRef.value.height : 24
             if(e.clientX > clientX && e.clientY < clientY) {
               elementPositionRef.value.y = e.clientY - el.y
               linePathRef.value = `M0,${elementPositionRef.value.height} L${elementPositionRef.value.width},0`
+              quadrant = 1
             }
             if(e.clientX < clientX && e.clientY > clientY) {
               elementPositionRef.value.x = e.clientX - el.x
               linePathRef.value = `M${elementPositionRef.value.width},0 L0,${elementPositionRef.value.height}`
+              quadrant = 3
             }
             if(e.clientX < clientX && e.clientY < clientY) {
               elementPositionRef.value.x = e.clientX - el.x
               elementPositionRef.value.y = e.clientY - el.y
               linePathRef.value = `M${elementPositionRef.value.width},${elementPositionRef.value.height} L0,0`
+              quadrant = 4
             }
             if(e.clientX > clientX && e.clientY > clientY) {
               elementPositionRef.value.x = clientX - el.x
               elementPositionRef.value.y = clientY - el.y
               linePathRef.value = `M0,0 L${elementPositionRef.value.width},${elementPositionRef.value.height}`
+              quadrant = 2
             }
             if(e.clientX == clientX && e.clientY < clientY) {
               linePathRef.value = `M0,${elementPositionRef.value.height} L0,0`
+              quadrant = 5
             }
             if(e.clientX == clientX && e.clientY > clientY) {
               linePathRef.value = `M0,0 L0,${elementPositionRef.value.height}`
+              quadrant = 7
             }
             if(e.clientY == clientY && e.clientX <= clientX) {
               linePathRef.value = `M${elementPositionRef.value.width},0 L0,0`
+              quadrant = 8
             }
             if(e.clientY == clientY && e.clientX >= clientX) {
               linePathRef.value = `M0,0 L${elementPositionRef.value.width},0`
+              quadrant = 6
             }
             if(e.clientX == clientX) {
                elementPositionRef.value.x = clientX - el.x
@@ -98,6 +108,7 @@ export default (isCreateNode:boolean,cancelSelectElement?:() => void) => {
         document.onmouseup = (e:MouseEvent) => {
             document.onmousemove = null
             document.onmouseup = null
+            /** 图形基本信息配置 */
             const elementShape = {
               ...elementPositionRef.value,
               ...store.state.app.singleGraph,
@@ -108,6 +119,12 @@ export default (isCreateNode:boolean,cancelSelectElement?:() => void) => {
                 text: "",
                 fontSize: 12,
                 color: "#000"
+              },
+              lineShape:{
+                strokeWidth: 2,
+                color: "#409EFF",
+                style: store.state.app.singleGraph.style,
+                quadrant
               }
             }
             if(elementShape.isLine) {
