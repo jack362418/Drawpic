@@ -45,34 +45,29 @@ export default defineComponent({
                 let minY = 0
                 let maxWidth = 0
                 let maxheight = 0
-                const sortX = multipleShapeArr.value.sort((it1,it2) => it1.x - it2.x)
-                minX = sortX[0].x
-                const maxWidthArr = multipleShapeArr.value.map(item => {
+                const maxXY = multipleShapeArr.value.map(item => {
                     return {
                         ...item,
+                        maxY: item.y+item.height,
                         maxX: item.x+item.width
                     }
-                }).sort((it1,it2) => it1.maxX - it2.maxX)
+                })
+                
+                minX = multipleShapeArr.value.sort((it1,it2) => it1.x - it2.x)[0].x
+                const maxWidthArr = maxXY.sort((it1,it2) => it1.maxX - it2.maxX)
                 maxWidth = maxWidthArr[maxWidthArr.length-1].maxX - minX
-                const sortY = multipleShapeArr.value.sort((it1,it2) => it1.y - it2.y)
-                minY = sortY[0].y
-                const maxheightArr =  multipleShapeArr.value.map(item => {
-                    return {
-                        ...item,
-                        maxY: item.y+item.height
-                    }
-                }).sort((it1,it2) => it1.maxY - it2.maxY)
+                minY = multipleShapeArr.value.sort((it1,it2) => it1.y - it2.y)[0].y
+                const maxheightArr = maxXY.sort((it1,it2) => it1.maxY - it2.maxY)
                 maxheight = maxheightArr[maxheightArr.length-1].maxY - minY
+
                 maxAreaShapRef.value = {
-                    ...sortX[0],
+                    ...maxXY[0],
                     x: minX,
                     y: minY,
                     width: maxWidth,
                     height: maxheight
                 }
-
                 elementShapeOperate.value = useOperateShapeLine(maxAreaShapRef.value)
-
                 store.commit("SET_MULTIPLE_TYPE",true)
           }
       }
