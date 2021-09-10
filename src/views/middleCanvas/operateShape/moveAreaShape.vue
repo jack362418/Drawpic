@@ -47,12 +47,22 @@ export default defineComponent({
                 let maxheight = 0
                 const sortX = multipleShapeArr.value.sort((it1,it2) => it1.x - it2.x)
                 minX = sortX[0].x
-                maxWidth = sortX[sortX.length-1].x - sortX[0].x + sortX[sortX.length-1].width
+                const maxWidthArr = multipleShapeArr.value.map(item => {
+                    return {
+                        ...item,
+                        maxX: item.x+item.width
+                    }
+                }).sort((it1,it2) => it1.maxX - it2.maxX)
+                maxWidth = maxWidthArr[maxWidthArr.length-1].maxX - minX
                 const sortY = multipleShapeArr.value.sort((it1,it2) => it1.y - it2.y)
                 minY = sortY[0].y
-                let sumMaxHeight = sortY[sortY.length-1].y - sortY[0].y + sortY[sortY.length-1].height
-                maxheight = sumMaxHeight > sortY[0].height ? sumMaxHeight : sortY[0].height
-
+                const maxheightArr =  multipleShapeArr.value.map(item => {
+                    return {
+                        ...item,
+                        maxY: item.y+item.height
+                    }
+                }).sort((it1,it2) => it1.maxY - it2.maxY)
+                maxheight = maxheightArr[maxheightArr.length-1].maxY - minY
                 maxAreaShapRef.value = {
                     ...sortX[0],
                     x: minX,
