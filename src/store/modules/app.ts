@@ -96,6 +96,23 @@ const app:Module<State, any> = {
             state.elementShapeArr = []
             state.multipleShapeArr = []
             state.isMultiple = false
+        },
+        DELETE_SELECT_SHAPE:(state) => {
+            if(state.elementShapeArr.filter(item => item.isSelect).length) {
+                const index = state.elementShapeArr.findIndex(item => item.isSelect)
+                state.elementShapeArr.splice(index,1)
+            }
+            if(state.multipleShapeArr.length) {
+                while(state.multipleShapeArr.length) {
+                    const deleteShape:ShapeObj | undefined = state.multipleShapeArr.pop()
+                    if(deleteShape) {
+                        const index = state.elementShapeArr.findIndex(item => item.id == deleteShape.id)
+                        state.elementShapeArr.splice(index,1)
+                    }
+                    
+                }
+                state.isMultiple = false
+            }
         }
     },
     actions: {

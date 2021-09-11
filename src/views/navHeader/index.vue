@@ -33,7 +33,7 @@
     <div class="tool">
         <div class="delete nav_com">
             <a-tooltip placement="bottom" title="删除">
-                <delete-one theme="filled" size="16" fill="#999" :strokeWidth="2" strokeLinecap="square"/>
+                <delete-one theme="filled" size="16" fill="#333" :strokeWidth="2" strokeLinecap="square" @click="handleDeleteSelect"/>
             </a-tooltip>
         </div>
         <div class="delete nav_com">
@@ -229,6 +229,9 @@ export default defineComponent({
             visible.value = false
             selectLinkFlow.value = item
         };
+        const handleDeleteSelect = () => {
+            store.commit("DELETE_SELECT_SHAPE")
+        }
         return {
             editCanvas,
             changeEdit,
@@ -242,7 +245,8 @@ export default defineComponent({
             visible,
             handleSelectLinkFlow,
             linkFlow,
-            selectLinkFlow
+            selectLinkFlow,
+            handleDeleteSelect
         }
   }
 })
