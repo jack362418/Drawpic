@@ -55,5 +55,6 @@ export interface State {
     /**
      * 是否处于多选状态
      */
-    isMultiple:boolean
+    isMultiple:boolean,
+    isAddgridLine: boolean
 }

@@ -12,4 +12,18 @@ export function uuid() :string{
   
     let uuid = s.join("");
     return uuid;
-  }
+}
+
+/**
+ * 读取图片文件的dataURL
+ * @param file 图片文件
+ */
+ export const getImageDataURL = (file: File): Promise<string> => {
+  return new Promise(resolve => {
+    const reader = new FileReader()
+    reader.addEventListener('load', () => {
+      resolve(reader.result as string)
+    })
+    reader.readAsDataURL(file)
+  })
+}

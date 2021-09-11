@@ -1,7 +1,5 @@
 <template>
-  <div class="header">
-    垃圾芋头 傻逼
-  </div>
+  <navHeader style="height:35px;"/>
   <div class="index flex">
     <graphicSelection
       :style="{
@@ -26,6 +24,7 @@ import { defineComponent,reactive,toRefs,computed } from 'vue'
 import graphicSelection from '@/views/graphicSelection/index.vue'
 import middleCanvas from '@/views/middleCanvas/index.vue'
 import toolsMenu from '@/views/toolsMenu/index.vue'
+import navHeader from '@/views/navHeader/index.vue'
 import { useStore } from '@/store'
 
 export default defineComponent({
@@ -33,7 +32,8 @@ export default defineComponent({
   components:{
     graphicSelection,
     middleCanvas,
-    toolsMenu
+    toolsMenu,
+    navHeader
   },
   setup() {
     const store = useStore()

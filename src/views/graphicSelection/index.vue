@@ -18,7 +18,7 @@
                     version="1.1"
                   > 
                     <g 
-                      :transform="`scale(${20 / it.viewBox}, ${20 / it.viewBox}) translate(0,0) matrix(1,0,0,1,0,0)`"
+                      :transform="`scale(${25 / it.viewBox}, ${25 / it.viewBox}) translate(0,0) matrix(1,0,0,1,0,0)`"
                       >
                         <path 
                           class="shape-path"
@@ -94,7 +94,7 @@ export default defineComponent({
           .shapeItem{
             display: flex;
             justify-content: center;
-            width: 20%;
+            width: 33%;
             height: 35px;
             &:hover .shape-path {
               stroke: #409EFF;

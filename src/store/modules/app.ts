@@ -13,7 +13,8 @@ const app:Module<State, any> = {
         isCreatElement: false,
         elementShapeArr:[],
         multipleShapeArr:[],
-        isMultiple: false
+        isMultiple: false,
+        isAddgridLine: true
     },  
     getters:{
         layout:(state) => {
@@ -87,6 +88,14 @@ const app:Module<State, any> = {
             state.elementShapeArr = state.elementShapeArr.map(item => {
                 return {...item,isDbclick:false}
             })
+        },
+        SET_VIEW_GRIDLINE:(state) => {
+            state.isAddgridLine = !state.isAddgridLine
+        },
+        CLEAR_ALL_SHAPE:(state) => {
+            state.elementShapeArr = []
+            state.multipleShapeArr = []
+            state.isMultiple = false
         }
     },
     actions: {
