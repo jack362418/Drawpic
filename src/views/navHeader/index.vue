@@ -38,13 +38,18 @@
         </div>
         <div class="delete nav_com">
             <a-tooltip placement="bottom" title="全选">
-                <full-selection theme="filled" size="16" fill="#333" :strokeWidth="2" strokeLinecap="square"/>
+                <full-selection theme="filled" size="16" fill="#333" :strokeWidth="2" strokeLinecap="square" @click="handleSelectAllShape"/>
             </a-tooltip>
         </div>
         <div class="delete nav_com">
-            <a-tooltip placement="bottom" title="填充颜色">
-                <background-color theme="filled" size="18" fill="#333" :strokeWidth="2" strokeLinecap="square"/>
-            </a-tooltip>
+            <a-popover v-model:visible="colorPicker"  trigger="click">
+                <template #content>
+                   <ColorPicker />
+                </template>
+                <a-tooltip placement="bottom" title="填充颜色">
+                    <background-color theme="filled" size="18" fill="#333" :strokeWidth="2" strokeLinecap="square"/>
+                </a-tooltip>
+            </a-popover>
         </div>
         <div class="delete nav_com">
             <a-tooltip placement="bottom" title="线条颜色">
@@ -87,6 +92,7 @@
                  </a-tooltip>
             </a-popover>
         </div>
+       
     </div>
   </div>
 </template>
@@ -94,6 +100,7 @@
 <script lang="ts">
 import { defineComponent,ref,computed } from 'vue'
 import {Edit,DeleteOne,FullSelection,BackgroundColor,FontSize,PictureOne,EditTwo,FilePdf,BringToFront,SentToBack,Down} from '@icon-park/vue-next';
+import ColorPicker from '@/components/colorPicker/index.vue'
 import { useStore } from '@/store'
 import { getImageDataURL } from '@/until/index'
 import lineTool from '@/components/lineTool.vue'
@@ -124,12 +131,14 @@ export default defineComponent({
       BringToFront,
       SentToBack,
       lineTool,
-      Down
+      Down,
+      ColorPicker
   },
   setup() {
         const store = useStore()
         const visibleAreaSizeRef = computed(() => store.getters.layout)
         const visible = ref<boolean>(false);
+        const colorPicker = ref<boolean>(true);
         const editCanvas = ref([
             {
                 type:"SET_VIEW_GRIDLINE",
@@ -232,6 +241,9 @@ export default defineComponent({
         const handleDeleteSelect = () => {
             store.commit("DELETE_SELECT_SHAPE")
         }
+        const handleSelectAllShape = () => {
+            store.commit("SELECT_ALL_SHAPE")
+        }
         return {
             editCanvas,
             changeEdit,
@@ -246,7 +258,9 @@ export default defineComponent({
             handleSelectLinkFlow,
             linkFlow,
             selectLinkFlow,
-            handleDeleteSelect
+            handleDeleteSelect,
+            handleSelectAllShape,
+            colorPicker
         }
   }
 })

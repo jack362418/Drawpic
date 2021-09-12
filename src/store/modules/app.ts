@@ -113,6 +113,13 @@ const app:Module<State, any> = {
                 }
                 state.isMultiple = false
             }
+        },
+        SELECT_ALL_SHAPE:(state) => {
+            state.elementShapeArr = state.elementShapeArr.map(item => {
+                return {...item,isSelect:false}
+            })
+            state.isMultiple = true
+            state.multipleShapeArr = state.elementShapeArr
         }
     },
     actions: {

@@ -1,8 +1,8 @@
 
 // 生成36位id
 export function uuid() :string{
-    let s:(string|number)[] = []
-    let hexDigits = "0123456789abcdef";
+    const s:(string|number)[] = []
+    const hexDigits = "0123456789abcdef";
     for (let i = 0; i < 36; i++) {
       s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
     }
@@ -10,7 +10,7 @@ export function uuid() :string{
     s[19] = hexDigits.substr((s[19] as number & 0x3) | 0x8, 1); // bits 6-7 of the clock_seq_hi_and_reserved to 01
     s[8] = s[13] = s[18] = s[23] = "";
   
-    let uuid = s.join("");
+    const uuid = s.join("");
     return uuid;
 }
 
@@ -27,3 +27,155 @@ export function uuid() :string{
     reader.readAsDataURL(file)
   })
 }
+
+export const rgbtohsv = (r:number,g:number,b:number) => {
+  	r=r/255;
+  	g=g/255;
+  	b=b/255;
+  	var h = 0 
+    var s = 0
+    var v = 0
+  	var min=Math.min(r,g,b);
+  	var max=v=Math.max(r,g,b);
+  	var l=(min+max)/2;
+  	var difference = max-min;
+    
+  	if(max==min){
+  		h=0;
+  	}else{
+  		switch(max){
+  			case r: h=(g-b)/difference+(g < b ? 6 : 0);break;
+  			case g: h=2.0+(b-r)/difference;break;
+  			case b: h=4.0+(r-g)/difference;break;
+  		}
+  		h=Math.round(h*60);
+  	}
+  	if(max==0){
+  		s=0;
+  	}else{
+  		s=1-min/max;
+  	}
+  	s=Math.round(s*100);
+  	v=Math.round(v*100);
+  	return [h,s,v];
+}
+
+export const hsvtorgb = (h:number,s:number,v:number):number[] => {
+  	var s=s/100;
+  	var v=v/100;
+  	var h1=Math.floor(h/60) % 6;
+  	var f=h/60-h1;
+  	var p=v*(1-s);
+  	var q=v*(1-f*s);
+  	var t=v*(1-(1-f)*s);
+  	var r=0
+    var g=0
+    var b=0
+  	switch(h1){
+  		case 0:
+  			r=v;
+  			g=t;
+  			b=p;
+  			break;
+  		case 1:
+  			r=q;
+  			g=v;
+  			b=p;
+  			break;
+  		case 2:
+  			r=p;
+  			g=v;
+  			b=t;
+  			break;
+  		case 3:
+  			r=p;
+  			g=q;
+  			b=v;
+  			break;
+  		case 4:
+  			r=t;
+  			g=p;
+  			b=v;
+  			break;
+  		case 5:
+  			r=v;
+  			g=p;
+  			b=q;
+  			break;
+  	}
+  	return [Math.round(r*255),Math.round(g*255),Math.round(b*255)];
+}
+
+// function rgbtohsv(r,g,b){
+// 	r=r/255;
+// 	g=g/255;
+// 	b=b/255;
+// 	var h,s,v;
+// 	var min=Math.min(r,g,b);
+// 	var max=v=Math.max(r,g,b);
+// 	var l=(min+max)/2;
+// 	var difference = max-min;
+	
+// 	if(max==min){
+// 		h=0;
+// 	}else{
+// 		switch(max){
+// 			case r: h=(g-b)/difference+(g < b ? 6 : 0);break;
+// 			case g: h=2.0+(b-r)/difference;break;
+// 			case b: h=4.0+(r-g)/difference;break;
+// 		}
+// 		h=Math.round(h*60);
+// 	}
+// 	if(max==0){
+// 		s=0;
+// 	}else{
+// 		s=1-min/max;
+// 	}
+// 	s=Math.round(s*100);
+// 	v=Math.round(v*100);
+// 	return [h,s,v];
+// }
+
+// function hsvtorgb(h,s,v){
+// 	var s=s/100;
+// 	var v=v/100;
+// 	var h1=Math.floor(h/60) % 6;
+// 	var f=h/60-h1;
+// 	var p=v*(1-s);
+// 	var q=v*(1-f*s);
+// 	var t=v*(1-(1-f)*s);
+// 	var r,g,b;
+// 	switch(h1){
+// 		case 0:
+// 			r=v;
+// 			g=t;
+// 			b=p;
+// 			break;
+// 		case 1:
+// 			r=q;
+// 			g=v;
+// 			b=p;
+// 			break;
+// 		case 2:
+// 			r=p;
+// 			g=v;
+// 			b=t;
+// 			break;
+// 		case 3:
+// 			r=p;
+// 			g=q;
+// 			b=v;
+// 			break;
+// 		case 4:
+// 			r=t;
+// 			g=p;
+// 			b=v;
+// 			break;
+// 		case 5:
+// 			r=v;
+// 			g=p;
+// 			b=q;
+// 			break;
+// 	}
+// 	return [Math.round(r*255),Math.round(g*255),Math.round(b*255)];
+// }
