@@ -15,7 +15,17 @@
         </div>
     </div>
     <div class="picker-color-dropdown__btns">
-        <span>{{ adsorbentColor }}</span>
+        <span>{{ isRgbMode ? adsorbentColor :  colorMode}}</span>
+        <div class="picker-color-mode" @click="changeColorMode">
+            <svg width="18" height="18" viewBox="0 0 48 48" fill="none">
+                <rect width="48" height="48" fill="white" fill-opacity="0.01"/>
+                <path d="M42 19H5.99998" stroke="#333" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"/>
+                <path d="M30 7L42 19" stroke="#333" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"/>
+                <path d="M6.79897 29H42.799" stroke="#333" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"/>
+                <path d="M6.79895 29L18.799 41" stroke="#333" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        
     </div>
     <div class="picker-color-predefine">
         <div class="picker-color-title" 
@@ -72,6 +82,7 @@ export default defineComponent({
           "#661813","#663c00","#665200","#1e5728","#245064","#003166","#232256","#4c065a"
       ])
       const hsv = ref([0])
+      const isRgbMode = ref(true)
       
       /**
        * 背景颜色
@@ -81,23 +92,38 @@ export default defineComponent({
           return `rgb(${pickerColorBg[0]},${pickerColorBg[1]},${pickerColorBg[2]})`
       })
       /**
-       * 吸附的颜色
+       * 吸附的颜色(rgba模式)
        */
       const adsorbentColor = computed(() => {
           let pickerColorAdsorbent = hsvtorgb(pickerColorHsv.value.h,pickerColorHsv.value.s,pickerColorHsv.value.v)
           let rgba = `rgba(${pickerColorAdsorbent[0]},${pickerColorAdsorbent[1]},${pickerColorAdsorbent[2]},${pickerColorHsv.value.a})`
-          emit("changePickerColor",rgbaTocolor(rgba))
+          emit("changePickerColor",isRgbMode.value ? rgba : rgbaTocolor(rgba))
           return rgba
+      })
+      /**
+       * 吸附的颜色(16进制模式)
+       */
+      const colorMode = computed(() => {
+          let pickerColorAdsorbent = hsvtorgb(pickerColorHsv.value.h,pickerColorHsv.value.s,pickerColorHsv.value.v)
+          let rgba = `rgba(${pickerColorAdsorbent[0]},${pickerColorAdsorbent[1]},${pickerColorAdsorbent[2]},${pickerColorHsv.value.a})`
+          return rgbaTocolor(rgba)
       })
 
       const changePredeine = (value:string) => {
+          if(/rgba\(.*\)$/g.test(value)){
+              value = rgbaTocolor(value)
+          }
           let rgb:number[] | undefined = colorToRgba(value)
-          if(rgb.length) {
+          if(rgb && rgb.length) {
             hsv.value = rgbtohsv(rgb[0],rgb[1],rgb[2])
             pickerColorHsv.value.h = hsv.value[0]
             pickerColorHsv.value.s = hsv.value[1]
             pickerColorHsv.value.v = hsv.value[2]
           }
+      }
+
+      const changeColorMode = () => {
+          isRgbMode.value = !isRgbMode.value
       }
 
         watch(() => props.color,() => {
@@ -126,10 +152,14 @@ export default defineComponent({
           titleColorDefault,
           colorPredefine,
           changePredeine,
-          hsv
+          hsv,
+          colorMode,
+          isRgbMode,
+          changeColorMode
       }
   }
 })
+
 </script>
 <style lang="scss" scoped>
     .color-picker{
@@ -172,6 +202,12 @@ export default defineComponent({
             align-items: center;
             justify-content: center;
             border-bottom: 1px solid #eee;
+            .picker-color-mode{
+                margin-left: 20px;
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+            }
         }
         .picker-color-predefine-box,
         .picker-color-predefine{
