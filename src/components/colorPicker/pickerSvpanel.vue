@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent,ref,PropType,computed } from 'vue'
+import { defineComponent,ref,PropType,computed,watch,onMounted } from 'vue'
 import { pickerColorHsvRgba } from "@/types/shape"
 export default defineComponent({
   name: 'pickerSvpanel',
@@ -25,6 +25,10 @@ export default defineComponent({
       },
       pickerColorSvpanelBg: {
             type: Object,
+            required: true,
+      },
+      hsv: {
+            type: Array as PropType<number[]>,
             required: true,
       }
   },
@@ -43,6 +47,28 @@ export default defineComponent({
                 }
             
         })
+        
+        onMounted(() => {
+            watch(() => props.hsv,() => {
+                if(!props.hsv.length && props.hsv.length <= 1){
+                    pickerColorSvpCursor.value.top = 0
+                    pickerColorSvpCursor.value.left = 0
+                    return
+                }
+                if (!pickerColorSvpanel.value){
+                    pickerColorSvpCursor.value.top = 0
+                    pickerColorSvpCursor.value.left = 0
+                    return
+                }
+                const { width,height } = pickerColorSvpanel.value.getBoundingClientRect()
+                let left = width / 100 * props.hsv[1]
+                let top = (100 - props.hsv[2]) / 100 * height
+                pickerColorSvpCursor.value.left = Math.round(left / width * 100)
+                pickerColorSvpCursor.value.top = Math.round(top / height * 100)
+            })
+        })
+        
+
         const handleChangePickerSvpanel = (e:MouseEvent) => {
             if (!pickerColorSvpanel.value) return
             const { width,height,x,y } = pickerColorSvpanel.value.getBoundingClientRect()

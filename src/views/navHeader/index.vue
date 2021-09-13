@@ -44,7 +44,7 @@
         <div class="delete nav_com">
             <a-popover v-model:visible="colorPicker"  trigger="click">
                 <template #content>
-                   <ColorPicker />
+                   <ColorPicker @changePickerColor="changePickerColor" :color="color"/>
                 </template>
                 <a-tooltip placement="bottom" title="填充颜色">
                     <background-color theme="filled" size="18" fill="#333" :strokeWidth="2" strokeLinecap="square"/>
@@ -139,6 +139,7 @@ export default defineComponent({
         const visibleAreaSizeRef = computed(() => store.getters.layout)
         const visible = ref<boolean>(false);
         const colorPicker = ref<boolean>(true);
+        const color = ref<string>("#409EFF")
         const editCanvas = ref([
             {
                 type:"SET_VIEW_GRIDLINE",
@@ -244,6 +245,9 @@ export default defineComponent({
         const handleSelectAllShape = () => {
             store.commit("SELECT_ALL_SHAPE")
         }
+        const changePickerColor = (color:string) => {
+            console.log("value",color)
+        }
         return {
             editCanvas,
             changeEdit,
@@ -260,7 +264,9 @@ export default defineComponent({
             selectLinkFlow,
             handleDeleteSelect,
             handleSelectAllShape,
-            colorPicker
+            colorPicker,
+            changePickerColor,
+            color
         }
   }
 })

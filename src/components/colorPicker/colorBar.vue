@@ -10,18 +10,23 @@
 </template>
 
 <script lang="ts">
-import { defineComponent,ref,PropType,computed } from 'vue'
+import { defineComponent,ref,PropType,computed,watch,onMounted } from 'vue'
 import { pickerColorHsvRgba } from "@/types/shape"
 export default defineComponent({
     name: 'colorBar',
     props: {
         pickerColorHsv: {
-                type: Object as PropType<pickerColorHsvRgba>,
-                required: true,
+            type: Object as PropType<pickerColorHsvRgba>,
+            required: true,
+        },
+        hsv: {
+             type: Array as PropType<number[]>,
+             required: true,
         }
     },
     setup(props,{ emit }) {
         const pickerSliderBarEle = ref<HTMLElement>()
+        
         const pickerColorBar = ref(0)
         const propPickerColorHsv = computed(() => {
             return {
@@ -32,6 +37,26 @@ export default defineComponent({
                 }
             
         })
+        
+        onMounted(() => {
+            watch(() => props.hsv,() => {
+                if(!props.hsv.length && props.hsv.length <= 1){
+                    pickerColorBar.value = 0
+                    return
+                }
+                if (!pickerSliderBarEle.value){
+                    pickerColorBar.value = 0
+                    return
+                }
+                const { width } = pickerSliderBarEle.value.getBoundingClientRect()
+                let left = width / 360 * props.hsv[0]
+                pickerColorBar.value = Math.round(left / width * 100)
+            })
+        })
+
+        
+
+
         const handleChangePickerBar = (e:MouseEvent) => {
             if (!pickerSliderBarEle.value) return
             const { width,x } = pickerSliderBarEle.value.getBoundingClientRect()

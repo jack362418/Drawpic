@@ -12,6 +12,7 @@
 <script lang="ts">
 import { defineComponent,ref,PropType,computed } from 'vue'
 import { pickerColorHsvRgba } from "@/types/shape"
+import { rgbtohsv,hsvtorgb } from '@/until/index'
 export default defineComponent({
     name: 'colorSlider',
     props: {
@@ -21,7 +22,6 @@ export default defineComponent({
         }
     },
     setup(props,{ emit }) {
-        const pickerSliderBar = ref("linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 100%)")
         const pickerSliderSliderEle = ref<HTMLElement>()
         const pickerSliderSlider = ref(100)
         const propPickerColorHsv = computed(() => {
@@ -33,6 +33,12 @@ export default defineComponent({
                 }
             
         })
+
+        const pickerSliderBar = computed(() => {
+          let bent = hsvtorgb(props.pickerColorHsv.h,props.pickerColorHsv.s,props.pickerColorHsv.v)
+          return `linear-gradient(to right,rgba(${bent[0]},${bent[1]},${bent[2]},0) 0%, rgb(${bent[0]},${bent[1]},${bent[2]}) 100%)`
+        })
+
         const handleChangePickerSlider = (e:MouseEvent) => {
             if (!pickerSliderSliderEle.value) return
             const { width,x } = pickerSliderSliderEle.value.getBoundingClientRect()
