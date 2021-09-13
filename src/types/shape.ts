@@ -39,3 +39,10 @@ export interface viewPosition {
     x: number,
     y: number
 }
+
+export interface pickerColorHsvRgba {
+    h:number,
+    s:number,
+    v:number,
+    a:number
+}

@@ -29,153 +29,53 @@ export function uuid() :string{
 }
 
 export const rgbtohsv = (r:number,g:number,b:number) => {
-  	r=r/255;
-  	g=g/255;
-  	b=b/255;
-  	var h = 0 
-    var s = 0
-    var v = 0
-  	var min=Math.min(r,g,b);
-  	var max=v=Math.max(r,g,b);
-  	var l=(min+max)/2;
-  	var difference = max-min;
-    
-  	if(max==min){
-  		h=0;
-  	}else{
-  		switch(max){
-  			case r: h=(g-b)/difference+(g < b ? 6 : 0);break;
-  			case g: h=2.0+(b-r)/difference;break;
-  			case b: h=4.0+(r-g)/difference;break;
-  		}
-  		h=Math.round(h*60);
-  	}
-  	if(max==0){
-  		s=0;
-  	}else{
-  		s=1-min/max;
-  	}
-  	s=Math.round(s*100);
-  	v=Math.round(v*100);
-  	return [h,s,v];
+	r = r / 255
+	g = g / 255
+	b = b / 255
+	let h = 0
+	let s = 0
+	let v = 0
+	const min = Math.min(r,g,b)
+	const max = Math.max(r,g,b)
+	const difference = max - min
+	if( max == min ){
+		h = 0 
+	}else{
+		switch(max){
+			case r: h=(g-b)/difference+(g < b ? 6 : 0);break;
+			case g: h=2.0+(b-r)/difference;break;
+			case b: h=4.0+(r-g)/difference;break;
+		}
+		h=Math.round(h*60);
+	}
+	if(max==0){
+		s=0;
+	}else{
+		s=1-min/max;
+	}
+	s = Math.round(s*100)
+	v = Math.round(s*100)
+	return [h,s,v]
 }
 
-export const hsvtorgb = (h:number,s:number,v:number):number[] => {
-  	var s=s/100;
-  	var v=v/100;
-  	var h1=Math.floor(h/60) % 6;
-  	var f=h/60-h1;
-  	var p=v*(1-s);
-  	var q=v*(1-f*s);
-  	var t=v*(1-(1-f)*s);
-  	var r=0
-    var g=0
-    var b=0
-  	switch(h1){
-  		case 0:
-  			r=v;
-  			g=t;
-  			b=p;
-  			break;
-  		case 1:
-  			r=q;
-  			g=v;
-  			b=p;
-  			break;
-  		case 2:
-  			r=p;
-  			g=v;
-  			b=t;
-  			break;
-  		case 3:
-  			r=p;
-  			g=q;
-  			b=v;
-  			break;
-  		case 4:
-  			r=t;
-  			g=p;
-  			b=v;
-  			break;
-  		case 5:
-  			r=v;
-  			g=p;
-  			b=q;
-  			break;
-  	}
-  	return [Math.round(r*255),Math.round(g*255),Math.round(b*255)];
+export const hsvtorgb = (h:number,s1:number,v1:number):number[] => {
+	const s = s1 / 100
+	const v = v1 / 100
+	const h1 = Math.floor(h / 60) % 6
+	const f = h / 60 - h1
+	const p = v * (1 - s)
+	const q = v * (1 - f * s)
+	const t = v * (1 - (1 - f) * s)
+	let r = 0
+	let g = 0
+	let b = 0
+	switch (h1) {
+		case 0: r = v; g = t; b = p; break;
+		case 1: r = q; g = v; b = p; break;
+		case 2: r = p; g = v; b = t; break;
+		case 3: r = p; g = q; b = v; break;
+		case 4: r = t; g = p; b = v; break;
+		case 5: r = v; g = p; b = q; break;
+	}
+	return [Math.round(r * 255),Math.round(g * 255),Math.round(b * 255)]
 }
-
-// function rgbtohsv(r,g,b){
-// 	r=r/255;
-// 	g=g/255;
-// 	b=b/255;
-// 	var h,s,v;
-// 	var min=Math.min(r,g,b);
-// 	var max=v=Math.max(r,g,b);
-// 	var l=(min+max)/2;
-// 	var difference = max-min;
-	
-// 	if(max==min){
-// 		h=0;
-// 	}else{
-// 		switch(max){
-// 			case r: h=(g-b)/difference+(g < b ? 6 : 0);break;
-// 			case g: h=2.0+(b-r)/difference;break;
-// 			case b: h=4.0+(r-g)/difference;break;
-// 		}
-// 		h=Math.round(h*60);
-// 	}
-// 	if(max==0){
-// 		s=0;
-// 	}else{
-// 		s=1-min/max;
-// 	}
-// 	s=Math.round(s*100);
-// 	v=Math.round(v*100);
-// 	return [h,s,v];
-// }
-
-// function hsvtorgb(h,s,v){
-// 	var s=s/100;
-// 	var v=v/100;
-// 	var h1=Math.floor(h/60) % 6;
-// 	var f=h/60-h1;
-// 	var p=v*(1-s);
-// 	var q=v*(1-f*s);
-// 	var t=v*(1-(1-f)*s);
-// 	var r,g,b;
-// 	switch(h1){
-// 		case 0:
-// 			r=v;
-// 			g=t;
-// 			b=p;
-// 			break;
-// 		case 1:
-// 			r=q;
-// 			g=v;
-// 			b=p;
-// 			break;
-// 		case 2:
-// 			r=p;
-// 			g=v;
-// 			b=t;
-// 			break;
-// 		case 3:
-// 			r=p;
-// 			g=q;
-// 			b=v;
-// 			break;
-// 		case 4:
-// 			r=t;
-// 			g=p;
-// 			b=v;
-// 			break;
-// 		case 5:
-// 			r=v;
-// 			g=p;
-// 			b=q;
-// 			break;
-// 	}
-// 	return [Math.round(r*255),Math.round(g*255),Math.round(b*255)];
-// }
