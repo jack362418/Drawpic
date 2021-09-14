@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent,ref,PropType,computed } from 'vue'
+import { defineComponent,ref,PropType,computed,onMounted,watch} from 'vue'
 import { pickerColorHsvRgba } from "@/types/shape"
 import { rgbtohsv,hsvtorgb } from '@/until/index'
 export default defineComponent({
@@ -19,6 +19,10 @@ export default defineComponent({
         pickerColorHsv: {
                 type: Object as PropType<pickerColorHsvRgba>,
                 required: true,
+        },
+        hsv: {
+             type: Array as PropType<number[]>,
+             required: true,
         }
     },
     setup(props,{ emit }) {
@@ -32,6 +36,20 @@ export default defineComponent({
                     a: props.pickerColorHsv.a
                 }
             
+        })
+
+
+         onMounted(() => {
+            watch(() => props.hsv,() => {
+                if(!props.hsv.length && props.hsv.length <= 1){
+                    pickerSliderSlider.value = 1
+                    return
+                } 
+                if(props.hsv.length > 3) {
+                    console.log("props.hsv[3]",props.hsv[3])
+                    pickerSliderSlider.value = Math.round( props.hsv[3] * 100)
+                } 
+            })
         })
 
         const pickerSliderBar = computed(() => {

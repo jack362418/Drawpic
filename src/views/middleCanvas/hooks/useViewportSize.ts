@@ -16,10 +16,6 @@ export default () => {
         getContentSize()
     })
 
-    // window.onresize = () => {
-    //     getContentSize()
-    // }
-
     return {
         viewportWidthRef,
         viewportHeightRef

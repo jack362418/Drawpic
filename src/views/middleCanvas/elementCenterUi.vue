@@ -4,7 +4,7 @@
         <div class="shape" :style="{
                 top: it.y + 'px',
                 left: it.x + 'px',
-                zIndex: idx,
+                zIndex: it.zIndex,
                 transform: `rotate(${it.rotate}deg)`
             }"
             :class="{
@@ -12,7 +12,7 @@
             }"
             @mousedown.stop="$event => changeShapEleSize($event,it)"
         >
-            <template v-if="!it.isLine">
+            <template v-if="it.isSvg">
                 <svg
                     overflow="visible" 
                     :width="it.width"
@@ -24,22 +24,20 @@
                 > 
                     <g 
                         :transform="`scale(${it.width / (it.viewBox)}, ${it.height / it.viewBox}) translate(0,0) matrix(1,0,0,1,0,0)`"
-                        >
-                        
+                        > 
                         <path
                             class="shape-path"
                             vector-effect="non-scaling-stroke" 
                             stroke-linecap="butt" 
                             stroke-miterlimit="8"
                             stroke-linejoin="inherit"
-                            fill="#409EFF"
-                            stroke="#409EFF"
+                            :fill="it.bgColor"
+                            :stroke="it.lineColor"
                             stroke-width="2" 
                             :d="it.path"
                         ></path>
                     </g>
-                </svg>
-                <!-- 双击编辑文字 -->
+                </svg> 
                 <div class="shape-text" @dblclick="changeShapeText(it)">
                     <div class="editor">
                         <div :contenteditable="it.isDbclick" :class="{'editorTable': it.isDbclick}" v-html="it.textShape.text" v-if="it.isDbclick" ref="editorShapeEleRef"> </div>
@@ -49,11 +47,14 @@
                     </div>
                 </div>
             </template>
-            <template v-else> 
-                <!-- 直线 -->
+            <template v-if="it.isLine">  
                 <lineTool :shapeItem='it' :idx='idx' :lineShape='it.lineShape'/>
             </template>
-            
+            <template v-if="it.isImage"> 
+                 <div class="image-content" :style="{width: it.width + 'px',height: it.height + 'px'}"> 
+                     <img :src="it.path" alt="" :draggable="false" style="width:100%;height:100%;">
+                 </div>
+            </template>
         </div>
     </div>
   </div>

@@ -115,6 +115,8 @@ export default (isCreateNode:boolean,cancelSelectElement?:() => void) => {
               isSelect:true,
               id: uuid(),
               rotate:0,
+              bgColor:"#409EFF",
+              lineColor:'#eee',
               textShape:{
                 text: "",
                 fontSize: 12,
@@ -125,7 +127,9 @@ export default (isCreateNode:boolean,cancelSelectElement?:() => void) => {
                 color: "#409EFF",
                 style: store.state.app.singleGraph.style,
                 quadrant
-              }
+              },
+              isImage: false,
+              zIndex: store.state.app.elementShapeArr.length + 1,
             }
             if(elementShape.isLine) {
               elementShape.path = linePathRef.value

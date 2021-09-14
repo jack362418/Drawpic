@@ -2,7 +2,7 @@
   <div class="graphicSelection">
     <a-card size="small" title="图形"  class="selectTool">
         <div class="wrapper-tool">
-          <a-collapse default-active-key="1" :bordered="false" accordion>
+          <a-collapse default-active-key="0" :bordered="false" accordion>
             <template >
               <a-icon type="caret-right" />
             </template>

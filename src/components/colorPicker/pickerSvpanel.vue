@@ -1,6 +1,6 @@
 <template>
   <div class="pickerSvpanel">
-     <div class="picker-color-svpanel" :style="{'background': pickerColorSvpanelBg}" ref="pickerColorSvpanel" @mousedown="$event => handleChangePickerSvpanel($event)">
+     <div class="picker-color-svpanel" :style="{'background': pickerColorSvpanelBg}" ref="pickerColorSvpanel" @mousedown.stop="$event => handleChangePickerSvpanel($event)">
         <div class="picker-color-svpanel__white picker-com"></div>
         <div class="picker-color-svpanel__black picker-com"></div>
         <div class="picker-color-svpanel__cursor" :style="{

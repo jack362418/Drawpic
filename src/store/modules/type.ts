@@ -9,6 +9,8 @@ export interface ShapeObj {
     isSelect: boolean,
     rotate: number,
     isDbclick:boolean,
+    bgColor:string,
+    lineColor: string,
     textShape:{
         text: string,
         fontSize?: number,
@@ -19,7 +21,11 @@ export interface ShapeObj {
         color: string,
         style: string,
         quadrant: number
-    }
+    },
+    zIndex: number,
+    isImage: boolean,
+    isLine: boolean,
+    isSvg: boolean
 }
 export interface State {
     /**
@@ -56,5 +62,12 @@ export interface State {
      * 是否处于多选状态
      */
     isMultiple:boolean,
-    isAddgridLine: boolean
+    isAddgridLine: boolean,
+    closeAllPop:boolean,
+    selectLinkFlow: { 
+        path: string, 
+        style: string,
+        tip: string,
+        id: number
+    }
 }

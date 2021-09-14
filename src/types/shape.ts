@@ -4,6 +4,7 @@ export interface ChildrenOption {
     path: string,
     name?: string,
     isLine?: boolean,
+    isSvg?: boolean,
     style?: string,
     tip?: string
 }

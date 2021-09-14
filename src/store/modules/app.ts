@@ -14,7 +14,14 @@ const app:Module<State, any> = {
         elementShapeArr:[],
         multipleShapeArr:[],
         isMultiple: false,
-        isAddgridLine: true
+        isAddgridLine: true,
+        closeAllPop: false,
+        selectLinkFlow: {
+            path: 'M 0 0 L 20 0', 
+            style: 'solid',
+            tip:"end-arrow",
+            id:3
+        }
     },  
     getters:{
         layout:(state) => {
@@ -51,7 +58,7 @@ const app:Module<State, any> = {
             state.elementShapeArr = state.elementShapeArr.map(item => {
                 let obj = item
                 if(item.id == updataItem.id) {
-                    obj = {...updataItem}
+                    obj = {...item,...updataItem}
                 }
                 return obj
             })
@@ -71,6 +78,7 @@ const app:Module<State, any> = {
             state.elementShapeArr = state.elementShapeArr.map(item => {
                 return {...item,isSelect:false,isDbclick:false}
             })
+            state.closeAllPop = true 
         },
         MULTIPLE_SELECT_SHAPE: (state,multipleSelectShape:State['multipleShapeArr']) => {
             state.multipleShapeArr = []
@@ -96,6 +104,7 @@ const app:Module<State, any> = {
             state.elementShapeArr = []
             state.multipleShapeArr = []
             state.isMultiple = false
+            state.closeAllPop = true
         },
         DELETE_SELECT_SHAPE:(state) => {
             if(state.elementShapeArr.filter(item => item.isSelect).length) {
@@ -120,6 +129,21 @@ const app:Module<State, any> = {
             })
             state.isMultiple = true
             state.multipleShapeArr = state.elementShapeArr
+        },
+        UPDATE_SELECT_SHAPE_COLOR:(state,color) => { 
+            if(state.elementShapeArr.filter(item => item.isSelect).length) {
+                state.elementShapeArr = state.elementShapeArr.map(item => {
+                    if(item.isSelect) return {...item,bgColor:color}
+                    return {...item}
+                })
+            }
+            
+        },
+        CLOSE_ALL_POP:(state) => {
+            state.closeAllPop = false
+        },
+        SET_FLOW_LINK:(state,obj) => {
+            state.selectLinkFlow = obj
         }
     },
     actions: {

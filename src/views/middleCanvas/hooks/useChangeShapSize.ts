@@ -18,6 +18,7 @@ export default (setShapeHtml?:() => void) => {
             it.isSelect = true
             store.commit("CANCEL_SELECT_SHAPE",it)
         }
+        
         const shapeItem = JSON.parse(JSON.stringify(it))
         const disX = e.clientX - shapeItem.x
         const disY = e.clientY - shapeItem.y
@@ -25,7 +26,7 @@ export default (setShapeHtml?:() => void) => {
             /** 是否处于编辑文字中 */
             if(it.isDbclick) return 
             it.x = e.clientX - disX
-            it.y = e.clientY - disY
+            it.y = e.clientY - disY 
         }
 
         document.onmouseup = () => {

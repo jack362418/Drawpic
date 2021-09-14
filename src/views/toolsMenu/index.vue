@@ -1,18 +1,20 @@
 <template>
   <div class="graphicSelection">
-    <a-card size="small" title="Small size card"  class="selectTool">
-        <p>card content</p>
-        <p>card content</p>
-        <p>card content</p>
+    <a-card size="small"  class="selectTool">
+        <theme />
     </a-card>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-
+import theme from './theme.vue'
 export default defineComponent({
-  name: 'graphicSelection'
+  name: 'graphicSelection',
+  components: {
+    theme
+  },
+
 })
 </script>
 <style lang="scss" scoped>

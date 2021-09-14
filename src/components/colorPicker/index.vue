@@ -11,7 +11,7 @@
             <div class="picker-color-barWraper">
                 <colorBar :pickerColorHsv='pickerColorHsv' :hsv="hsv" @colorChange="value => changePickerColor(value)"/>
             </div>
-            <colorSlider :pickerColorHsv='pickerColorHsv' @colorChange="value => changePickerColor(value)"/>
+            <colorSlider :pickerColorHsv='pickerColorHsv' :hsv="hsv" @colorChange="value => changePickerColor(value)"/>
         </div>
     </div>
     <div class="picker-color-dropdown__btns">
@@ -63,7 +63,7 @@ export default defineComponent({
   props:{
       color: {
           type: String,
-          required: true,
+          default: '#409EFF',
       }
   },
   setup(props,{ emit }) {
@@ -97,7 +97,7 @@ export default defineComponent({
       const adsorbentColor = computed(() => {
           let pickerColorAdsorbent = hsvtorgb(pickerColorHsv.value.h,pickerColorHsv.value.s,pickerColorHsv.value.v)
           let rgba = `rgba(${pickerColorAdsorbent[0]},${pickerColorAdsorbent[1]},${pickerColorAdsorbent[2]},${pickerColorHsv.value.a})`
-          emit("changePickerColor",isRgbMode.value ? rgba : rgbaTocolor(rgba))
+          emit("changePickerColorBen",isRgbMode.value ? rgba : rgbaTocolor(rgba))
           return rgba
       })
       /**
@@ -108,9 +108,14 @@ export default defineComponent({
           let rgba = `rgba(${pickerColorAdsorbent[0]},${pickerColorAdsorbent[1]},${pickerColorAdsorbent[2]},${pickerColorHsv.value.a})`
           return rgbaTocolor(rgba)
       })
-
-      const changePredeine = (value:string) => {
+      
+      const changePredeine = (value:string) => { 
           if(/rgba\(.*\)$/g.test(value)){
+              let rgbaArr = value.replace(/rgba?\(/, '').replace(/\)/, '').replace(/[\s+]/g, '').split(',')
+              if(rgbaArr.length && rgbaArr.length == 4) {
+                  pickerColorHsv.value.a = Number(rgbaArr[3])
+                  value = `rgba(${rgbaArr[0]},${rgbaArr[1]},${rgbaArr[2]})` 
+              }
               value = rgbaTocolor(value)
           }
           let rgb:number[] | undefined = colorToRgba(value)
@@ -119,6 +124,7 @@ export default defineComponent({
             pickerColorHsv.value.h = hsv.value[0]
             pickerColorHsv.value.s = hsv.value[1]
             pickerColorHsv.value.v = hsv.value[2]
+            hsv.value[3] = pickerColorHsv.value.a
           }
       }
 
@@ -127,8 +133,8 @@ export default defineComponent({
       }
 
         watch(() => props.color,() => {
-            if(props.color) {
-                changePredeine(props.color)
+            if(props.color) { 
+                changePredeine(props.color)  
             }
         }) 
 
@@ -137,7 +143,6 @@ export default defineComponent({
                 changePredeine(props.color)
             })
         }
-
       const changePickerColor = (value:pickerColorHsvRgba) => {
           pickerColorHsv.value.h = value.h
           pickerColorHsv.value.s = value.s
@@ -167,6 +172,7 @@ export default defineComponent({
         width: 240px;
         background: #fff;
         user-select: none;
+        z-index: 9999;
         .picker-color-bar{
             display: flex;
             .color-content{
