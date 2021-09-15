@@ -21,6 +21,32 @@ const app:Module<State, any> = {
             style: 'solid',
             tip:"end-arrow",
             id:3
+        },
+        themeBg: {
+            themeType:{
+                type: "bgColor"
+            },
+            bgColor: {
+                color: "",
+                type: "bgColor"
+            },
+            bgImage: {
+                image: "",
+                type: "bgImage"
+            },
+            gradual: {
+                startColor: "",
+                endColor: "",
+                angle: 0,
+                type:"gradual"
+            },
+            fontSize:{
+                color: "",
+                size: 12
+            },
+            shape:{
+                colorBg: ""
+            }
         }
     },  
     getters:{
@@ -144,6 +170,9 @@ const app:Module<State, any> = {
         },
         SET_FLOW_LINK:(state,obj) => {
             state.selectLinkFlow = obj
+        },
+        UPDATE_THEME:(state,item) => {
+            state.themeBg = {...state.themeBg,...item} 
         }
     },
     actions: {

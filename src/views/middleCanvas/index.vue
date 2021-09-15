@@ -1,13 +1,15 @@
 <template>
   <div class="middleCanvas" @mousedown.stop="$event => cancelSelectElement($event)">
     <div 
-        class="viewport" 
+        class="viewport"  
+        :class=" {'viewGridLine':isAddgridLine,'setImage': theme.themeType.type == 'bgImage'}"
         :style="{ 
           width: viewportWidthRef + 'px',
-          height: viewportHeightRef + 'px'
+          height: viewportHeightRef + 'px',
+          backgroundColor: theme.themeType.type == 'bgColor' ? theme.bgColor.color : '',
+          backgroundImage: theme.themeType.type == 'bgImage' ? `url(${theme.bgImage.image})` : '',
         }"
         ref="viewport"
-        :class="isAddgridLine ? 'viewGridLine' : ''"
       >
       <creatElement v-if="isCreatElement" />
       <div class="drawingCenter">
@@ -23,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref,provide} from 'vue'
+import { computed, defineComponent, ref,provide,watch} from 'vue'
 import { useStore } from '@/store'
 import useViewportSize from './hooks/useViewportSize'
 import creatElement from './createElementWraper.vue'
@@ -59,13 +61,22 @@ export default defineComponent({
       }
     }
     provide('cancelSelectElement',cancelSelectElement)
+    
+    const theme = computed(() => { return store.state.app.themeBg })
+
+    watch(() => theme.value,() => {
+      console.log("theme",theme.value)
+    })
+
+
     return {
       ...useViewportSize(),
       isCreatElement,
       cancelSelectElement,
       viewport,
       elementCenterUiRef,
-      isAddgridLine
+      isAddgridLine,
+      theme
     }
   }
 })
@@ -78,9 +89,11 @@ export default defineComponent({
       justify-content: center;
       .viewport{
         position: relative;
-        background: #fff;
-        
-      
+        background: #fff;  
+      }
+      .setImage{
+        background-repeat: no-repeat;
+        background-size: cover;
       }
       .viewGridLine{
         background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAwIDEwIEwgNDAgMTAgTSAxMCAwIEwgMTAgNDAgTSAwIDIwIEwgNDAgMjAgTSAyMCAwIEwgMjAgNDAgTSAwIDMwIEwgNDAgMzAgTSAzMCAwIEwgMzAgNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2UwZTBlMCIgb3BhY2l0eT0iMC4yIiBzdHJva2Utd2lkdGg9IjEiLz48cGF0aCBkPSJNIDQwIDAgTCAwIDAgMCA0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZTBlMGUwIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=);

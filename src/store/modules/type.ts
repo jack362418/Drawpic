@@ -69,5 +69,31 @@ export interface State {
         style: string,
         tip: string,
         id: number
+    },
+    themeBg: {
+        themeType:{
+            type:string
+        },
+        bgColor: {
+            color: string,
+            type: string
+        },
+        bgImage: {
+            image: string,
+            type: string
+        },
+        gradual: {
+            startColor: string,
+            endColor: string,
+            angle: number,
+            type: string
+        },
+        fontSize:{
+            color: string,
+            size: number
+        },
+        shape:{
+            colorBg:string
+        }
     }
 }

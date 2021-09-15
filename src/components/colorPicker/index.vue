@@ -47,7 +47,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent,ref,computed,watch } from 'vue'
+import { defineComponent,ref,computed,watch,onMounted } from 'vue'
 import { pickerColorHsvRgba } from "@/types/shape"
 import { rgbtohsv,hsvtorgb,colorToRgba,rgbaTocolor } from '@/until/index'
 import pickerSvpanel from './pickerSvpanel.vue'
@@ -63,7 +63,7 @@ export default defineComponent({
   props:{
       color: {
           type: String,
-          default: '#409EFF',
+          required: true,
       }
   },
   setup(props,{ emit }) {
@@ -118,6 +118,7 @@ export default defineComponent({
               }
               value = rgbaTocolor(value)
           }
+          if(!value) return
           let rgb:number[] | undefined = colorToRgba(value)
           if(rgb && rgb.length) {
             hsv.value = rgbtohsv(rgb[0],rgb[1],rgb[2])
@@ -132,17 +133,15 @@ export default defineComponent({
           isRgbMode.value = !isRgbMode.value
       }
 
-        watch(() => props.color,() => {
-            if(props.color) { 
-                changePredeine(props.color)  
-            }
-        }) 
-
-       if(props.color) {
-            setTimeout(() => {
-                changePredeine(props.color)
-            })
-        }
+      watch(() => props.color,() => {
+         if(props.color) { 
+             changePredeine(props.color)  
+         }
+      }) 
+      onMounted(() => {
+         changePredeine(props.color)
+      }) 
+      
       const changePickerColor = (value:pickerColorHsvRgba) => {
           pickerColorHsv.value.h = value.h
           pickerColorHsv.value.s = value.s
