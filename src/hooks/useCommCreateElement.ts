@@ -105,9 +105,11 @@ export default (isCreateNode:boolean,cancelSelectElement?:() => void) => {
               elementPositionRef.value.y = clientY - el.y
             }
         }
+
         document.onmouseup = (e:MouseEvent) => {
+            const theme = store.state.app.themeBg
             document.onmousemove = null
-            document.onmouseup = null
+            document.onmouseup = null 
             /** 图形基本信息配置 */
             const elementShape = {
               ...elementPositionRef.value,
@@ -115,12 +117,12 @@ export default (isCreateNode:boolean,cancelSelectElement?:() => void) => {
               isSelect:true,
               id: uuid(),
               rotate:0,
-              bgColor:"#409EFF",
-              lineColor:'#eee',
+              bgColor: theme.shape.colorBg,
+              lineColor: '#eee',
               textShape:{
                 text: "",
-                fontSize: 12,
-                color: "#000"
+                fontSize: theme.fontSize.size,
+                color: theme.fontSize.color
               },
               lineShape:{
                 strokeWidth: 2,

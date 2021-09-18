@@ -39,7 +39,7 @@
                     </g>
                 </svg> 
                 <div class="shape-text" @dblclick="changeShapeText(it)">
-                    <div class="editor">
+                    <div class="editor" :style="{fontSize: it.textShape.fontSize + 'px',color: it.textShape.color}">
                         <div :contenteditable="it.isDbclick" :class="{'editorTable': it.isDbclick}" v-html="it.textShape.text" v-if="it.isDbclick" ref="editorShapeEleRef"> </div>
                         <div v-if="!it.isDbclick">
                             <div v-html="it.textShape.text"></div>

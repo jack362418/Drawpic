@@ -24,20 +24,20 @@ const app:Module<State, any> = {
         },
         themeBg: {
             themeType:{
-                type: "bgColor"
+                type: "gradual"
             },
             bgColor: {
-                color: "",
+                color: "rgba(187,164,252)",
                 type: "bgColor"
             },
             bgImage: {
-                image: "",
+                image: "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
                 type: "bgImage"
             },
             gradual: {
-                startColor: "",
-                endColor: "",
-                angle: 0,
+                startColor: "rgba(158,40,40,1)",
+                endColor: "rgba(73,118,191,1)",
+                angle: 324,
                 type:"gradual"
             },
             fontSize:{
@@ -45,7 +45,7 @@ const app:Module<State, any> = {
                 size: 12
             },
             shape:{
-                colorBg: ""
+                colorBg: "#409EFF"
             }
         }
     },  

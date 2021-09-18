@@ -1,6 +1,6 @@
 <template>
   <div class="theme">
-      <p class="title">主题设置</p>
+      <p class="title">主题预设</p>
       <a-radio-group v-model:value="themeBg" @change="changeRadioGroup">
           <div class="colorFillBg">
             <a-radio-button value="bgColor">纯色填充背景</a-radio-button>
@@ -76,28 +76,13 @@
                 </div>
             </div>
           </div>
-          <div class="fontSize">
-              <div class="content"> 
-                <div class=" gradua">  
-                     <a-popover v-model:visible="fontSize"  placement="left"  trigger="click" :destroyTooltipOnHide='true'>
-                        <template #content>
-                            <ColorPicker @changePickerColorBen="changeFontSize" :color="fontSizeBg" />
-                        </template> 
-                        <div class="pop-color">
-                            <span>字体颜色:</span>
-                            <a-tooltip placement="top" title="填充颜色">
-                                <div class="selectBox">
-                                    <div class="fill" :style="{
-                                        background: theme.fontSize.color
-                                    }"></div>
-                                    <bubble-chart theme="filled" size="20" fill="#d9d9d9" :strokeWidth="2" strokeLinecap="square"/>
-                                </div>
-                            </a-tooltip>
-                        </div>  
-                    </a-popover>
+          <div class="gridLine">
+                <div class="content"> 
+                    <div class="line">
+                        <span>网格线:</span>
+                        <a-switch v-model:checked="isCheckedLine" @change="changeCheckLine"/>
+                    </div>
                 </div>
-               
-            </div>
           </div>
           <div class="shape">
               <div class="content"> 
@@ -121,13 +106,39 @@
                 </div> 
             </div>
           </div>
-          <div class="gridLine">
-                <div class="content"> 
-                    <div class="line">
-                        <span>网格线:</span>
-                        <a-switch v-model:checked="isCheckedLine" @change="changeCheckLine"/>
-                    </div>
+          <div class="fontSize">
+              <div class="content"> 
+                <div class=" gradua">  
+                     <a-popover v-model:visible="fontSize"  placement="left"  trigger="click" :destroyTooltipOnHide='true'>
+                        <template #content>
+                            <ColorPicker @changePickerColorBen="changeFontSize" :color="fontSizeBg" />
+                        </template> 
+                        <div class="pop-color">
+                            <span>字体颜色:</span>
+                            <a-tooltip placement="top" title="填充颜色">
+                                <div class="selectBox">
+                                    <div class="fill" :style="{
+                                        background: theme.fontSize.color
+                                    }"></div>
+                                    <bubble-chart theme="filled" size="20" fill="#d9d9d9" :strokeWidth="2" strokeLinecap="square"/>
+                                </div>
+                            </a-tooltip>
+                        </div>  
+                    </a-popover>
                 </div>
+            </div>
+          </div> 
+          <div class="size">
+               <div class="content"> 
+                   <div class=" gradua">
+                        <span>字体大小:</span>
+                        <a-select 
+                            v-model:value="defaultSize" 
+                            :options="optionsSize.map(pro => ({ value: pro+'px' }))"
+                            @change="handleSelectSize"
+                        ></a-select>
+                   </div>
+               </div>
           </div>
       </a-radio-group>
   </div>
@@ -147,9 +158,7 @@ export default defineComponent({
       Plus,
       BubbleChart
   },
-  setup() {
-        const themeBg = ref<string>('bgColor');
-        const angle = ref<number>(1);
+  setup() {  
         const store = useStore() 
         const purityColor  = ref<boolean>(false); 
         const purityColorBg = ref("") 
@@ -165,7 +174,10 @@ export default defineComponent({
         const inputRef = ref<HTMLInputElement>()
         const closeAllPop = computed(() => { return store.state.app.closeAllPop })
         const theme = computed(() => { return store.state.app.themeBg })
-
+        const themeBg = computed(() => { return store.state.app.themeBg.themeType.type })
+        const angle = computed(() => { return store.state.app.themeBg.gradual.angle })
+        const defaultSize = computed(() => { return store.state.app.themeBg.fontSize.size + 'px'})
+        const optionsSize = ref([12,13,14,15,16,17,18,20,22,24,26,28])
         /**
          * 纯色填充背景
          */
@@ -193,6 +205,7 @@ export default defineComponent({
             if(files) {
                 getImageDataURL(files[0]).then(dataURL => { 
                     let bgImage = store.state.app.themeBg.bgImage
+                    console.log("bg",dataURL)
                     store.commit("UPDATE_THEME",{ bgImage: {...bgImage,image:dataURL} })
                 })
             }
@@ -236,6 +249,11 @@ export default defineComponent({
         const changeFontSize = (color: string) => {
             let fontColor = store.state.app.themeBg.fontSize
             store.commit("UPDATE_THEME",{ fontSize: {...fontColor,color} })
+        }
+        const handleSelectSize = (size: ChangeEvent) => { 
+            let fontsize = Number((size+"").slice(0,2))
+            let fontColor = store.state.app.themeBg.fontSize
+            store.commit("UPDATE_THEME",{ fontSize: {...fontColor,size: fontsize} })
         }
 
         /**
@@ -298,7 +316,10 @@ export default defineComponent({
             changeFontSize,
             changeShapeBg,
             changeRadioGroup,
-            changeCheckLine
+            changeCheckLine,
+            defaultSize,
+            optionsSize,
+            handleSelectSize
         }
   }
 })
@@ -385,16 +406,26 @@ export default defineComponent({
                     flex: 1 !important;
                 }
             }
-        }
-        .fontSize{
+        } 
+        .gridLine{
             border-top: 1px solid #d9d9d9;
             padding-top: 10px;
-        }
-        .gridLine{
-            margin-top: 5px;
             .line{
                 display: flex;
                 justify-content: space-between;
+            }
+        }
+        .size{
+            margin-top: 5px;
+            .gradua{
+                display: flex; 
+                align-items: center;
+                span{
+                    margin-right: 10px;
+                }
+                :deep(.ant-select){
+                    flex: 1;
+                }
             }
         }
     }

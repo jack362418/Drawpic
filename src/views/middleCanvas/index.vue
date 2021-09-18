@@ -2,12 +2,12 @@
   <div class="middleCanvas" @mousedown.stop="$event => cancelSelectElement($event)">
     <div 
         class="viewport"  
-        :class=" {'viewGridLine':isAddgridLine,'setImage': theme.themeType.type == 'bgImage'}"
+        :class=" {'viewGridLine':isAddgridLine,'setImage': themeType == 'bgImage'}"
         :style="{ 
           width: viewportWidthRef + 'px',
           height: viewportHeightRef + 'px',
-          backgroundColor: theme.themeType.type == 'bgColor' ? theme.bgColor.color : '',
-          backgroundImage: theme.themeType.type == 'bgImage' ? `url(${theme.bgImage.image})` : '',
+          backgroundColor: themeType == 'bgColor' ? theme.bgColor.color : '', 
+          backgroundImage: themeType == 'gradual' || themeType == 'bgImage' ? (themeType == 'gradual' ? `${gradualColor}` : `url(${theme.bgImage.image})`) : ''
         }"
         ref="viewport"
       >
@@ -62,12 +62,16 @@ export default defineComponent({
     }
     provide('cancelSelectElement',cancelSelectElement)
     
-    const theme = computed(() => { return store.state.app.themeBg })
-
-    watch(() => theme.value,() => {
-      console.log("theme",theme.value)
+    /**
+     * 获取背景色
+     */
+    const themeType = computed(() => { return store.state.app.themeBg.themeType.type })
+    const theme = computed(() => { return store.state.app.themeBg  })
+    const gradualColor = computed(() => {
+      let gradualBg = store.state.app.themeBg.gradual
+      return `linear-gradient(${gradualBg.angle}deg, ${gradualBg.startColor},  ${gradualBg.endColor})`
     })
-
+ 
 
     return {
       ...useViewportSize(),
@@ -76,6 +80,8 @@ export default defineComponent({
       viewport,
       elementCenterUiRef,
       isAddgridLine,
+      themeType,
+      gradualColor,
       theme
     }
   }
