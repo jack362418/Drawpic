@@ -7,7 +7,7 @@ function resolve(dir) {
 const port = process.env.port || process.env.npm_config_port || 9529 // dev port
 
 module.exports = {
-  publicPath: '/',
+  publicPath: '/drawpic/',
   outputDir: 'dist',
   assetsDir: 'static',
   lintOnSave: false,

@@ -122,7 +122,8 @@ export default (isCreateNode:boolean,cancelSelectElement?:() => void) => {
               textShape:{
                 text: "",
                 fontSize: theme.fontSize.size,
-                color: theme.fontSize.color
+                color: theme.fontSize.color,
+                align: theme.fontSize.align
               },
               lineShape:{
                 strokeWidth: 2,

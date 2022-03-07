@@ -39,8 +39,8 @@
                     </g>
                 </svg> 
                 <div class="shape-text" @dblclick="changeShapeText(it)">
-                    <div class="editor" :style="{fontSize: it.textShape.fontSize + 'px',color: it.textShape.color}">
-                        <div :contenteditable="it.isDbclick" :class="{'editorTable': it.isDbclick}" v-html="it.textShape.text" v-if="it.isDbclick" ref="editorShapeEleRef"> </div>
+                    <div class="editor" :class="it.textShape.align" :style="{fontSize: it.textShape.fontSize + 'px',color: it.textShape.color}">
+                        <div :contenteditable="it.isDbclick"  :class="[ it.isDbclick ? 'editorTable' :'',it.textShape.align]" v-html="it.textShape.text" v-if="it.isDbclick" ref="editorShapeEleRef"> </div>
                         <div v-if="!it.isDbclick">
                             <div v-html="it.textShape.text"></div>
                         </div>
@@ -61,7 +61,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent,computed, ref } from 'vue'
+import { defineComponent,computed, ref,   } from 'vue'
 import { useStore } from '@/store'
 import useChangeShapSize from "./hooks/useChangeShapSize"
 import { ShapeObj } from '@/store/modules/type'
@@ -77,7 +77,7 @@ export default defineComponent({
       const elementShapeArr = computed(() => {
           return store.state.app.elementShapeArr
       })
-
+       
       const setShapeHtml = () => {
             if(!editorShapeEleRef.value) return
             let currentSelectShap = store.state.app.elementShapeArr.filter(item => item.isSelect)?.[0]
@@ -127,7 +127,13 @@ export default defineComponent({
             word-break: break-word;
             justify-content: center;
             .editor{
+                width: 100%;
+                height: 100%; 
+                display: flex;
                 .editorTable{
+                    display: flex;
+                    width: 100%;
+                    height: 100%;
                     outline: 0;
                     border: 0;
                     word-break: break-word;

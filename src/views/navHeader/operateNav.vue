@@ -15,11 +15,20 @@ import insertText from './nav/insertText.vue'
 import insertImage from './nav/insertImage.vue'
 import moveTop from './nav/moveTop.vue'
 import moveBottom from './nav/moveBottom.vue'
+import moveUp from './nav/moveUp.vue'
+import moveDown from './nav/moveDown.vue'
 import linkFlow from './nav/linkFlow.vue' 
+import textColor from './nav/textColor.vue'
+import textSize from './nav/textSize.vue'
+import textAlign from './nav/textAlign.vue'
 export default defineComponent({
     name: 'operateNav', 
     setup() {
-       const currentNavComponent = ref([ deleteCom,allSelect,fullShapeColor,lineColor,insertText,insertImage,moveTop,moveBottom,linkFlow ])
+       const currentNavComponent = ref([ 
+           deleteCom,allSelect,fullShapeColor,lineColor,textColor,textSize,textAlign,
+           insertText,insertImage,moveTop,moveBottom,moveUp,
+           moveDown,linkFlow
+        ])
        return {
            currentNavComponent
        }

@@ -13,8 +13,9 @@ export interface ShapeObj {
     lineColor: string,
     textShape:{
         text: string,
-        fontSize?: number,
-        color?: string
+        fontSize: number,
+        color: string,
+        align: string
     },
     lineShape:{
         strokeWidth: number,
@@ -90,7 +91,8 @@ export interface State {
         },
         fontSize:{
             color: string,
-            size: number
+            size: number,
+            align: string
         },
         shape:{
             colorBg:string

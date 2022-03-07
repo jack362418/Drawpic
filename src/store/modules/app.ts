@@ -41,8 +41,9 @@ const app:Module<State, any> = {
                 type:"gradual"
             },
             fontSize:{
-                color: "",
-                size: 12
+                color: "#fff",
+                size: 12,
+                align:"flex-justify-star"
             },
             shape:{
                 colorBg: "#409EFF"
